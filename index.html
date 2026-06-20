@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint Stratégie — Sun Tzu · Clausewitz · TRIZ</title>
+<style>
+  :root{
+    --bg:#0a0c10; --bg2:#10131a; --card:#161a24; --card2:#1c2230;
+    --line:#272d3d; --txt:#e7eaf2; --mut:#9aa4ba; --dim:#6b7390;
+    --acc:#e0a93b; --acc2:#c2410c; --steel:#5b8def; --gold:#f5c451; --green:#34d399;
+    --red:#fb7185; --cyan:#22d3ee; --purple:#a855f7;
+    --r:16px; --shadow:0 10px 40px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:20px}
+  body{background:var(--bg);color:var(--txt);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--steel);text-decoration:none}
+  ::selection{background:var(--acc);color:#1a1207}
+  .wrap{display:flex;min-height:100vh}
+  .side{width:272px;flex:0 0 272px;background:linear-gradient(180deg,#0c0f15,#0a0c10);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 14px}
+  .side::-webkit-scrollbar{width:7px}.side::-webkit-scrollbar-thumb{background:#222838;border-radius:9px}
+  .main{flex:1;min-width:0;padding:0 0 120px}
+  .brandhead{padding:4px 10px 18px}
+  .brandhead h1{font-size:16px;letter-spacing:.3px;background:linear-gradient(90deg,var(--acc),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+  .brandhead p{font-size:11px;color:var(--dim);margin-top:3px;text-transform:uppercase;letter-spacing:1.5px}
+  nav a{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;color:var(--mut);font-size:13.5px;font-weight:500;margin-bottom:2px;transition:.15s;border:1px solid transparent}
+  nav a .ico{width:22px;text-align:center;font-size:15px}
+  nav a:hover{background:var(--card);color:var(--txt)}
+  nav a.on{background:linear-gradient(90deg,rgba(224,169,59,.16),rgba(194,65,12,.09));color:#fff;border-color:rgba(224,169,59,.35)}
+  nav a .dot{margin-left:auto;width:8px;height:8px;border-radius:50%;background:#2c3344;flex:0 0 8px}
+  nav a.done .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .navsec{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);padding:16px 12px 6px;font-weight:700}
+  .progwrap{padding:10px 12px;margin-top:8px}
+  .progbar{height:8px;background:#1b1f2b;border-radius:9px;overflow:hidden}
+  .progfill{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--green));transition:width .5s ease}
+  .progtxt{font-size:11px;color:var(--dim);margin-top:6px;text-align:center}
+  section{max-width:1000px;margin:0 auto;padding:54px 40px;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:14px;padding:5px 12px;background:rgba(224,169,59,.10);border:1px solid rgba(224,169,59,.25);border-radius:30px}
+  h2.title{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+  .lead{font-size:18px;color:var(--mut);margin-bottom:28px;max-width:780px}
+  h3{font-size:21px;font-weight:700;margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+  h3:before{content:"";width:4px;height:20px;background:linear-gradient(var(--acc),var(--acc2));border-radius:3px}
+  h4{font-size:16px;font-weight:700;margin:22px 0 10px;color:#cdd3e4}
+  p{margin-bottom:14px;color:#d2d7e6}
+  .mut{color:var(--mut)}
+  strong{color:#fff;font-weight:700}
+  em{color:var(--gold);font-style:normal;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:18px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+  .why{background:linear-gradient(135deg,rgba(52,211,153,.08),rgba(52,211,153,.02));border:1px solid rgba(52,211,153,.25);border-radius:14px;padding:16px 20px;margin:16px 0}
+  .why b{color:var(--green)}
+  .def{background:var(--card2);border-left:4px solid var(--acc);border-radius:0 12px 12px 0;padding:14px 18px;margin:14px 0}
+  .def .term{font-weight:800;color:#fff;font-size:15px;margin-bottom:4px}
+  .def .src{font-size:12px;color:var(--dim);font-style:italic}
+  .keep{background:linear-gradient(135deg,rgba(245,196,81,.10),rgba(245,196,81,.02));border:1px solid rgba(245,196,81,.3);border-radius:14px;padding:16px 20px;margin:18px 0}
+  .keep .h{font-weight:800;color:var(--gold);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+  .trap{background:linear-gradient(135deg,rgba(251,113,133,.10),rgba(251,113,133,.02));border:1px solid rgba(251,113,133,.3);border-radius:14px;padding:14px 18px;margin:16px 0}
+  .trap .h{font-weight:800;color:var(--red);font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+  .quote{border-left:3px solid var(--steel);padding:10px 18px;margin:16px 0;font-style:italic;color:#cdd6ea;background:rgba(91,141,239,.06);border-radius:0 10px 10px 0}
+  .quote .who{display:block;font-style:normal;font-size:12px;color:var(--steel);font-weight:700;margin-top:6px;text-transform:uppercase;letter-spacing:1px}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--card2);border:1px solid var(--line);color:var(--mut);margin:2px}
+  .pill.a{color:var(--acc);border-color:rgba(224,169,59,.4)}
+  .pill.g{color:var(--green);border-color:rgba(52,211,153,.4)}
+  .pill.s{color:var(--steel);border-color:rgba(91,141,239,.4)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--acc);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  ul.clean{list-style:none;margin:8px 0}
+  ul.clean li{padding:6px 0 6px 26px;position:relative;color:#d2d7e6}
+  ul.clean li:before{content:"▸";position:absolute;left:6px;color:var(--acc);font-weight:700}
+  .diagram{background:radial-gradient(circle at 50% 0%,#13161f,#0c0e14);border:1px solid var(--line);border-radius:16px;padding:24px;margin:22px 0;overflow-x:auto}
+  .diagram .cap{text-align:center;font-size:12px;color:var(--dim);margin-top:12px;text-transform:uppercase;letter-spacing:1px}
+  svg{display:block;margin:0 auto;max-width:100%;height:auto}
+  .flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:18px 0}
+  .flow .node{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-align:center;font-weight:700;font-size:14px;min-width:110px}
+  .flow .node small{display:block;font-weight:400;color:var(--dim);font-size:11px;margin-top:3px}
+  .flow .arr{color:var(--acc);font-size:22px;font-weight:700}
+  .clickbox{cursor:pointer;transition:.2s}
+  .clickbox:hover{transform:translateY(-2px)}
+  .infopanel{background:var(--card2);border:1px solid var(--acc);border-radius:12px;padding:16px;margin-top:14px;min-height:60px;font-size:14px}
+  .fcwrap{max-width:560px;margin:24px auto}
+  .flashcard{perspective:1600px;height:300px;cursor:pointer}
+  .fcinner{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+  .flashcard.flip .fcinner{transform:rotateY(180deg)}
+  .fcface{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;border:1px solid var(--line)}
+  .fcfront{background:linear-gradient(135deg,var(--card2),var(--card))}
+  .fcback{background:linear-gradient(135deg,#231a0e,#181410);transform:rotateY(180deg);border-color:rgba(224,169,59,.4)}
+  .fcfront .q{font-size:21px;font-weight:700}
+  .fcfront .hint{position:absolute;bottom:16px;font-size:12px;color:var(--dim)}
+  .fcback .a{font-size:15.5px;color:#dfe3ef;line-height:1.6}
+  .fctag{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--acc);margin-bottom:14px;font-weight:700}
+  .fcnav{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:14px}
+  .btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--acc);background:var(--card)}
+  .btn.prim{background:linear-gradient(90deg,var(--acc),var(--acc2));border:0;color:#fff}
+  .fccount{font-size:13px;color:var(--mut)}
+  .deckpick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;justify-content:center}
+  .deckpick .dk{font-size:12.5px;padding:7px 13px;border-radius:20px;cursor:pointer;background:var(--card);border:1px solid var(--line);color:var(--mut)}
+  .deckpick .dk.on{background:var(--acc);color:#1a1207;border-color:var(--acc)}
+  .q-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:14px 0}
+  .q-num{font-size:12px;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+  .q-txt{font-size:16.5px;font-weight:600;margin-bottom:14px}
+  .opt{display:block;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 16px;margin:8px 0;cursor:pointer;transition:.15s;font-size:14.5px}
+  .opt:hover{border-color:var(--acc)}
+  .opt.correct{background:rgba(52,211,153,.15);border-color:var(--green);color:#d6ffe9}
+  .opt.wrong{background:rgba(251,113,133,.13);border-color:var(--red);color:#ffd9df}
+  .opt.disabled{pointer-events:none;opacity:.55}
+  .explain{font-size:13.5px;color:var(--mut);margin-top:10px;padding:10px 14px;background:rgba(224,169,59,.06);border-radius:9px;border-left:3px solid var(--acc);display:none}
+  .explain.show{display:block}
+  .scorebox{position:sticky;bottom:20px;background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;padding:14px 22px;border-radius:14px;font-weight:700;text-align:center;margin-top:20px;box-shadow:var(--shadow)}
+  .hero{max-width:1000px;margin:0 auto;padding:64px 40px 40px}
+  .hero h2.title{font-size:44px}
+  .sprintgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:26px 0}
+  .sprintcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13.5px}
+  .sprintcard .t{font-weight:700;color:#fff;margin-bottom:4px;font-size:15px}
+  .badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+  .b-red{background:rgba(251,113,133,.16);color:var(--red)}
+  .b-org{background:rgba(224,169,59,.16);color:var(--acc)}
+  .b-yel{background:rgba(91,141,239,.16);color:var(--steel)}
+  .topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(10,12,16,.7);border-bottom:1px solid var(--line);padding:10px 40px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+  .topbar .mini{font-size:12px;color:var(--dim)}
+  .markbtn{background:var(--card2);border:1px solid var(--line);color:var(--mut);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer;transition:.15s}
+  .markbtn:hover{border-color:var(--green);color:var(--green)}
+  .markbtn.done{background:rgba(52,211,153,.14);border-color:var(--green);color:var(--green)}
+  @media(max-width:820px){.side{display:none}section,.hero{padding-left:20px;padding-right:20px}.topbar{padding:10px 20px}}
+  .links-graph text{font-size:11px;fill:var(--txt);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="side">
+    <div class="brandhead">
+      <h1>SPRINT · STRATÉGIE</h1>
+      <p>Sun Tzu · Clausewitz · TRIZ</p>
+    </div>
+    <div class="progwrap">
+      <div class="progbar"><div class="progfill" id="pf"></div></div>
+      <div class="progtxt" id="pt">0 / 9 modules</div>
+    </div>
+    <div class="navsec">Parcours</div>
+    <nav id="nav">
+      <a href="#sprint" data-s="sprint"><span class="ico">🏁</span>Le plan de sprint<span class="dot"></span></a>
+      <a href="#m1" data-s="m1"><span class="ico">🎯</span>1 · Stratégie vs Tactique<span class="dot"></span></a>
+      <a href="#m2" data-s="m2"><span class="ico">⚙️</span>2 · TRIZ : les contradictions<span class="dot"></span></a>
+      <a href="#m3" data-s="m3"><span class="ico">📈</span>3 · Idéalité &amp; 8 tendances<span class="dot"></span></a>
+      <a href="#m4" data-s="m4"><span class="ico">🗂️</span>4 · Système &amp; 9 boîtes<span class="dot"></span></a>
+      <a href="#m5" data-s="m5"><span class="ico">🌍</span>5 · Méta-système &amp; 3 sphères<span class="dot"></span></a>
+      <a href="#m6" data-s="m6"><span class="ico">🌫️</span>6 · Clausewitz<span class="dot"></span></a>
+      <a href="#m7" data-s="m7"><span class="ico">🐉</span>7 · Sun Tzu<span class="dot"></span></a>
+      <a href="#m8" data-s="m8"><span class="ico">🧭</span>8 · Conduire la stratégie<span class="dot"></span></a>
+      <a href="#m9" data-s="m9"><span class="ico">📂</span>9 · Les cas<span class="dot"></span></a>
+    </nav>
+    <div class="navsec">S'entraîner</div>
+    <nav>
+      <a href="#flash" data-s="flash"><span class="ico">🃏</span>Flashcards<span class="dot"></span></a>
+      <a href="#quiz" data-s="quiz"><span class="ico">✅</span>QCM blanc<span class="dot"></span></a>
+    </nav>
+    <div style="padding:18px 12px;font-size:11px;color:var(--dim);line-height:1.5">Progression sauvegardée automatiquement dans ce navigateur.</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="mini" id="crumb">🏁 Le plan de sprint</div>
+      <button class="markbtn" id="markbtn">○ Marquer comme lu</button>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero" id="sprint" data-mod>
+      <span class="eyebrow">⏱️ Réviser de zéro · « Stratégie et projet à impact »</span>
+      <h2 class="title">La stratégie d'entreprise par<br><span style="background:linear-gradient(90deg,var(--acc),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent">Sun Tzu, Clausewitz &amp; TRIZ</span></h2>
+      <p class="lead">Un cours différent des autres : pas de Porter ni de matrice BCG. Ici la stratégie se pense via <strong>deux stratèges militaires</strong> (Sun Tzu, Clausewitz) et une <strong>méthode d'innovation</strong> (TRIZ). Ce parcours part de zéro, explique chaque idée simplement, la <strong>dessine</strong>, puis te teste par QCM.</p>
+
+      <div class="why"><b>💡 Comment réviser ?</b> Pour chaque module : (1) lis le bloc vert <em>« l'intuition »</em>. (2) Regarde le schéma jusqu'à pouvoir le redessiner. (3) Mémorise le bloc or <em>« à retenir »</em> et les <strong>citations exactes</strong> (le prof les valorise). (4) Fais les flashcards + le QCM. Marque chaque module « lu » pour suivre ta progression.</p></div>
+
+      <div class="card" style="border-color:var(--acc)"><h4 style="margin-top:0">📋 Format de l'examen (déduit des slides)</h4><p style="margin:0;font-size:14.5px"><strong>QCM</strong> en fin de séance (~40 % de la note, Internet souvent autorisé) + <strong>examen final = QCM + question de cours</strong> (~60 %). ⚠️ La séance 5 introduit des <strong>points négatifs</strong> : au QCM, ne réponds qu'aux questions que tu maîtrises. L'examen valorise les <strong>définitions exactes</strong>, les <strong>citations</strong> (Clausewitz, Sun Tzu, Thorez…) et les <strong>schémas</strong> (9 boîtes, 3 sphères, trinité, idéalité).</p></div>
+
+      <h3>Les 3 piliers à maîtriser</h3>
+      <div class="sprintgrid">
+        <div class="sprintcard"><span class="badge b-red">Pilier 1</span><div class="t" style="margin-top:8px">⚙️ TRIZ</div><div class="mut">Contradictions, idéalité, 8 tendances, système/méta-système. Modules 2-5.</div></div>
+        <div class="sprintcard"><span class="badge b-org">Pilier 2</span><div class="t" style="margin-top:8px">🌫️ Clausewitz</div><div class="mut">Friction, ascension aux extrêmes, trinité. Module 6.</div></div>
+        <div class="sprintcard"><span class="badge b-yel">Pilier 3</span><div class="t" style="margin-top:8px">🐉 Sun Tzu</div><div class="mut">Renseignement, vaincre sans combattre, direct/indirect. Module 7.</div></div>
+      </div>
+      <p class="mut" style="font-size:14px">👉 Commence par le module 1 ci-dessous : la distinction fondatrice <strong>stratégie vs tactique</strong>.</p>
+    </div>
+
+    <!-- M1 -->
+    <section id="m1" data-mod>
+      <span class="eyebrow">🎯 Module 1 · Séances 1-2</span>
+      <h2 class="title">Stratégie vs Tactique : les fins et les moyens</h2>
+      <p class="lead">La distinction de base de tout le cours. La <strong>stratégie</strong> s'occupe des <em>fins</em> (le but). La <strong>tactique / les opérations</strong> mobilisent les <em>moyens</em>. Tout le reste articule ces deux niveaux.</p>
+
+      <div class="why"><b>L'intuition.</b> Décider <em>où</em> tu veux aller = stratégie. Organiser <em>comment</em> y aller (ressources, équipes, calendrier) = tactique/opérations. Les deux sont vitaux : l'un sans l'autre échoue. C'est le fil rouge des 5 séances.</p></div>
+
+      <div class="flow">
+        <div class="node" style="border-color:var(--acc)">STRATÉGIE<small>les FINS — le quoi/pourquoi</small></div>
+        <div class="arr">⇄</div>
+        <div class="node" style="border-color:var(--steel)">TACTIQUE / OPÉRATIONS<small>les MOYENS — le comment</small></div>
+      </div>
+
+      <div class="grid2">
+        <div class="quote">« Des opérations sans stratégie à laquelle se raccrocher sont un <strong>gaspillage des ressources</strong>. »<span class="who">Sun Tzu</span></div>
+        <div class="quote">« Une stratégie <strong>qui se perd dans les détails</strong> a vocation à échouer face à l'incertitude. »<span class="who">Clausewitz</span></div>
+      </div>
+
+      <div class="def"><div class="term">La démarche stratégique doit être rationnelle</div><span class="src">principe du cours</span><p style="margin:6px 0 0">La stratégie doit être « une démarche rationnelle <strong>pour ne pas s'épuiser en route</strong> », avec un <strong>ancrage dans la réalité</strong> pour avoir une chance de devenir réalité.</p></div>
+
+      <div class="card"><h4 style="margin-top:0">Qui était qui ?</h4>
+      <ul class="clean" style="font-size:14px">
+        <li><strong>Sun Tzu</strong> — général chinois, <em>L'Art de la guerre</em>. Économie des moyens, ruse, « vaincre sans combattre ».</li>
+        <li><strong>Clausewitz</strong> — théoricien prussien, <em>De la guerre (Vom Kriege)</em>. Réalisme : friction, incertitude, « brouillard de la guerre ».</li>
+        <li><strong>Genrich Altshuller</strong> — ingénieur soviétique, inventeur de <strong>TRIZ</strong> en étudiant des milliers de brevets.</li>
+      </ul></div>
+
+      <div class="keep"><div class="h">⭐ À retenir</div>Stratégie = fins. Tactique/opérations = moyens. Le module entier cherche à <strong>articuler</strong> les deux. Connais les 2 citations (Sun Tzu / Clausewitz) ci-dessus.</div>
+    </section>
+
+    <!-- M2 -->
+    <section id="m2" data-mod>
+      <span class="eyebrow">⚙️ Module 2 · TRIZ · <span style="color:var(--red)">PILIER 1</span></span>
+      <h2 class="title">TRIZ : penser par contradictions</h2>
+      <p class="lead"><strong>TRIZ</strong> = « Théorie de Résolution des problèmes Inventifs » (acronyme russe). On part toujours d'un <em>problème</em>, jamais d'une solution. Le cœur : repérer une <strong>contradiction</strong> et la dépasser.</p>
+
+      <div class="why"><b>L'intuition.</b> Altshuller a lu des milliers de brevets et a remarqué : inventer, c'est presque toujours <b>résoudre une contradiction</b> en allant chercher une idée dans un autre domaine. « Inventer = adopter un savoir venant d'un autre champ. »</p></div>
+
+      <div class="def"><div class="term">TRIZ</div><span class="src">Genrich Altshuller, URSS</span><p style="margin:6px 0 0">Théorie de Résolution des problèmes Inventifs. Méthode <strong>analytique et systématique</strong> de l'innovation. Principe n°1 : <strong>« penser problème, pas solution »</strong>. Adoptée par Samsung, Siemens, Hitachi, le CEA.</p></div>
+
+      <h3>Les 2 types de contradictions</h3>
+      <div class="diagram">
+        <svg viewBox="0 0 700 230" role="img" aria-label="Contradiction technique vs physique">
+          <rect x="20" y="20" width="320" height="190" rx="14" fill="rgba(224,169,59,.06)" stroke="#e0a93b"/>
+          <text x="180" y="50" text-anchor="middle" fill="#e0a93b" font-weight="800" font-size="16">CONTRADICTION TECHNIQUE</text>
+          <text x="180" y="78" text-anchor="middle" fill="#cdd3e4" font-size="12.5">Améliorer un point A...</text>
+          <text x="180" y="98" text-anchor="middle" fill="#fb7185" font-size="12.5">...dégrade un autre point B</text>
+          <text x="180" y="130" text-anchor="middle" fill="#9aa3b8" font-size="11.5">ex. voiture rapide ⇄ polluante</text>
+          <text x="180" y="165" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">→ se résout en CHANGEANT DE CHAMP</text>
+          <text x="180" y="188" text-anchor="middle" fill="#9aa3b8" font-size="11">(le compromis ne résout PAS, il atténue)</text>
+
+          <rect x="360" y="20" width="320" height="190" rx="14" fill="rgba(91,141,239,.06)" stroke="#5b8def"/>
+          <text x="520" y="50" text-anchor="middle" fill="#5b8def" font-weight="800" font-size="16">CONTRADICTION PHYSIQUE</text>
+          <text x="520" y="78" text-anchor="middle" fill="#cdd3e4" font-size="12.5">2 propriétés antinomiques</text>
+          <text x="520" y="98" text-anchor="middle" fill="#cdd3e4" font-size="12.5">d'une MÊME entité</text>
+          <text x="520" y="130" text-anchor="middle" fill="#9aa3b8" font-size="11.5">4 leviers : Échelle · Temps · Espace · Condition</text>
+          <text x="520" y="165" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">→ se résout par la SEGMENTATION</text>
+          <text x="520" y="188" text-anchor="middle" fill="#9aa3b8" font-size="11">(séparer dans le temps / l'espace)</text>
+        </svg>
+        <div class="cap">Technique = 2 objets · Physique = 1 objet, 2 exigences opposées</div>
+      </div>
+
+      <div class="card"><p style="margin:0;font-size:14px">📌 Pour résoudre, TRIZ propose une boîte à outils : <strong>40 principes inventifs</strong> (Segmentation, Asymétrie, Universalité, « poupée russe »…) + une <strong>Matrice des contradictions</strong> avec <strong>39 paramètres techniques</strong>. Plusieurs principes peuvent résoudre une même contradiction.</p></div>
+
+      <h3>La boucle d'abstraction (pourquoi monter en abstraction)</h3>
+      <div class="flow">
+        <div class="node">Problème concret</div><div class="arr">↑</div>
+        <div class="node" style="border-color:var(--acc)">Reformulation abstraite</div><div class="arr">→</div>
+        <div class="node" style="border-color:var(--green)">Solution abstraite</div><div class="arr">↓</div>
+        <div class="node">Solution ad hoc</div>
+      </div>
+      <p class="mut" style="font-size:14px">On <strong>monte</strong> en abstraction pour sortir de l'impasse (chercher une idée ailleurs), puis on <strong>redescend</strong> vers une solution concrète. L'inverse du réflexe « solution toute prête » qui te rend prévisible.</p>
+
+      <div class="trap"><div class="h">⚠️ Pièges fréquents</div>① <strong>Technique</strong> = améliorer A dégrade B (2 paramètres). <strong>Physique</strong> = une seule entité, 2 exigences opposées. ② Le <strong>compromis n'est PAS une résolution</strong> : il atténue. ③ TRIZ = <strong>40 principes</strong> mais <strong>39 contradictions/paramètres techniques</strong> (ne pas confondre les deux chiffres).</div>
+    </section>
+
+    <!-- M3 -->
+    <section id="m3" data-mod>
+      <span class="eyebrow">📈 Module 3 · TRIZ · <span style="color:var(--red)">PILIER 1</span></span>
+      <h2 class="title">L'Idéalité &amp; les 8 tendances d'évolution</h2>
+      <p class="lead">Deux outils-stars, quasi certains au QCM : la <strong>formule de l'idéalité</strong> (pour choisir entre des options) et les <strong>8 tendances d'évolution des systèmes</strong> (pour analyser un projet).</p>
+
+      <h3>La formule de l'idéalité</h3>
+      <div class="why"><b>L'intuition.</b> L'idéalité = le résultat parfait qu'on voudrait dans un monde idéal. On ne l'atteint jamais, mais on s'en rapproche en augmentant ce qui est utile et en baissant ce qui coûte ou nuit. C'est le <b>critère pour choisir une hypothèse stratégique</b> : on garde celle dont l'idéalité est la plus haute.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 560 170" role="img" aria-label="Formule de l'idéalité">
+          <text x="280" y="55" text-anchor="middle" fill="#fff" font-weight="800" font-size="22">Idéalité =</text>
+          <line x1="330" y1="80" x2="540" y2="80" stroke="#e0a93b" stroke-width="3"/>
+          <text x="435" y="62" text-anchor="middle" fill="#34d399" font-weight="800" font-size="20">Bénéfices</text>
+          <text x="435" y="115" text-anchor="middle" fill="#fb7185" font-weight="800" font-size="18">Coûts + Négativité</text>
+          <text x="280" y="150" text-anchor="middle" fill="#9aa3b8" font-size="12.5">↑ bénéfices · ↓ coûts et effets indésirables  →  idéalité maximale</text>
+        </svg>
+        <div class="cap">Idéalité = Bénéfices / (Coûts + Négativité)</div>
+      </div>
+
+      <h3>Les 8 tendances d'évolution des systèmes</h3>
+      <p class="mut">LE framework de la séance 2. Sert à analyser comment une organisation/un projet évolue. À savoir lister.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 720 330" role="img" aria-label="8 tendances d'évolution des systèmes">
+          <g font-size="12.5">
+            <rect x="15" y="15" width="220" height="60" rx="10" fill="#1c2230" stroke="#e0a93b"/><text x="30" y="40" fill="#fff" font-weight="700">1 · Simplicité→</text><text x="30" y="58" fill="#fff" font-weight="700">Complexité→Simplicité</text>
+            <rect x="250" y="15" width="220" height="60" rx="10" fill="#1c2230" stroke="#5b8def"/><text x="265" y="40" fill="#fff" font-weight="700">2 · Segmentation</text><text x="265" y="58" fill="#9aa3b8">+ champs (intégration)</text>
+            <rect x="485" y="15" width="220" height="60" rx="10" fill="#1c2230" stroke="#a855f7"/><text x="500" y="40" fill="#fff" font-weight="700">3 · Évolution</text><text x="500" y="58" fill="#9aa3b8">non-uniforme des parties</text>
+            <rect x="15" y="90" width="220" height="60" rx="10" fill="#1c2230" stroke="#34d399"/><text x="30" y="115" fill="#fff" font-weight="700">4 · ↑ Idéalité</text><text x="30" y="133" fill="#9aa3b8">utile / coûteux</text>
+            <rect x="250" y="90" width="220" height="60" rx="10" fill="#1c2230" stroke="#22d3ee"/><text x="265" y="115" fill="#fff" font-weight="700">5 · ↓ Interventions</text><text x="265" y="133" fill="#9aa3b8">humaines (automatisation)</text>
+            <rect x="485" y="90" width="220" height="60" rx="10" fill="#1c2230" stroke="#f5c451"/><text x="500" y="115" fill="#fff" font-weight="700">6 · Synchronisation</text><text x="500" y="133" fill="#9aa3b8">/ décalages (matching)</text>
+            <rect x="130" y="165" width="220" height="60" rx="10" fill="#1c2230" stroke="#fb7185"/><text x="145" y="190" fill="#fff" font-weight="700">7 · ↑ Dynamisme</text><text x="145" y="208" fill="#9aa3b8">&amp; contrôle (pilotage fin)</text>
+            <rect x="370" y="165" width="220" height="60" rx="10" fill="#1c2230" stroke="#e0a93b"/><text x="385" y="190" fill="#fff" font-weight="700">8 · Courbes en S</text><text x="385" y="208" fill="#9aa3b8">(non linéaire, paliers)</text>
+          </g>
+          <!-- mini S-curve -->
+          <path d="M40 305 C160 305 160 255 360 255 C560 255 560 245 690 245" stroke="#e0a93b" stroke-width="2.5" fill="none"/>
+          <text x="360" y="325" text-anchor="middle" fill="#9aa3b8" font-size="11.5">Une stratégie n'est jamais linéaire : elle progresse par paliers (courbe en S)</text>
+        </svg>
+        <div class="cap">Les 8 tendances — le pont entre opérations et stratégie</div>
+      </div>
+
+      <div class="keep"><div class="h">⭐ À retenir</div>Connais la <strong>formule de l'idéalité</strong> par cœur et au moins 5-6 des <strong>8 tendances</strong>. La n°1 (Simplicité→Complexité→Simplicité) décrit une transformation : organisation rodée → le projet complexifie → maîtrise/appropriation. La n°8 (courbe en S) = la stratégie progresse par paliers, anticipe les ralentissements.</div>
+      <div class="trap"><div class="h">⚠️ Dialectique</div>« Toute avancée comporte des effets négatifs » : chaque résolution génère des <strong>bénéfices ET des nuisances</strong> (boucle). Nier ça = se faire surprendre ; en abuser = ne plus rien oser.</div>
+    </section>
+
+    <!-- M4 -->
+    <section id="m4" data-mod>
+      <span class="eyebrow">🗂️ Module 4 · Séance 3 · <span style="color:var(--red)">PILIER 1</span></span>
+      <h2 class="title">Système, Sous-système &amp; la matrice 9 boîtes</h2>
+      <p class="lead">Pour analyser une situation, TRIZ propose 3 niveaux emboîtés et un outil de cartographie : la <strong>matrice 9 boîtes</strong> (3 niveaux × 3 temps).</p>
+
+      <div class="why"><b>L'intuition.</b> Toute organisation vit à 3 étages : ce qu'elle contrôle (<b>sous-systèmes</b>), elle-même (<b>système</b>), et son environnement qui la dépasse (<b>méta-système</b>). « L'appartenance est d'abord une question de perspective : qui me contrôle, qui je contrôle. » La même entité peut être système ET sous-système selon le point de vue.</p></div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 520 250" role="img" aria-label="Trois niveaux emboîtés">
+          <rect x="20" y="20" width="480" height="210" rx="14" fill="rgba(168,85,247,.06)" stroke="#a855f7"/>
+          <text x="40" y="45" fill="#a855f7" font-weight="700" font-size="13">MÉTA-SYSTÈME — l'environnement (droit, marché, société…)</text>
+          <rect x="70" y="65" width="380" height="140" rx="12" fill="rgba(224,169,59,.07)" stroke="#e0a93b"/>
+          <text x="90" y="90" fill="#e0a93b" font-weight="700" font-size="13">SYSTÈME — l'entreprise (le flux d'info se fait en son sein)</text>
+          <rect x="120" y="110" width="280" height="75" rx="10" fill="rgba(91,141,239,.08)" stroke="#5b8def"/>
+          <text x="260" y="143" text-anchor="middle" fill="#5b8def" font-weight="700" font-size="13">SOUS-SYSTÈME</text>
+          <text x="260" y="165" text-anchor="middle" fill="#9aa3b8" font-size="11.5">directions, filiales, services (exécutent les directives)</text>
+        </svg>
+        <div class="cap">Sous-système ⊂ Système ⊂ Méta-système</div>
+      </div>
+
+      <h3>La matrice 9 boîtes</h3>
+      <p class="mut">3 niveaux (lignes) × 3 temps (colonnes). On y place les acteurs et on trace les interactions. Outil réutilisé dans tous les cas (Lithium, Dassault, Google).</p>
+      <div class="diagram">
+        <svg viewBox="0 0 560 280" role="img" aria-label="Matrice 9 boîtes">
+          <text x="290" y="20" text-anchor="middle" fill="#6b7390" font-size="12">TEMPS →</text>
+          <g font-size="12" text-anchor="middle">
+            <text x="160" y="44" fill="#9aa3b8">PASSÉ</text><text x="290" y="44" fill="#e0a93b" font-weight="700">PRÉSENT</text><text x="420" y="44" fill="#9aa3b8">FUTUR</text>
+            <text x="55" y="85" fill="#a855f7" font-weight="700" transform="rotate(-90 55 85)">MÉTA</text>
+            <text x="55" y="160" fill="#e0a93b" font-weight="700" transform="rotate(-90 55 160)">SYSTÈME</text>
+            <text x="55" y="235" fill="#5b8def" font-weight="700" transform="rotate(-90 55 235)">SOUS-SYS.</text>
+          </g>
+          <g fill="none" stroke="#272d3d">
+            <rect x="95" y="55" width="130" height="60" rx="8"/><rect x="225" y="55" width="130" height="60" rx="8" stroke="#a855f7"/><rect x="355" y="55" width="130" height="60" rx="8"/>
+            <rect x="95" y="125" width="130" height="60" rx="8"/><rect x="225" y="125" width="130" height="60" rx="8" stroke="#e0a93b" stroke-width="2"/><rect x="355" y="125" width="130" height="60" rx="8"/>
+            <rect x="95" y="195" width="130" height="60" rx="8"/><rect x="225" y="195" width="130" height="60" rx="8" stroke="#5b8def"/><rect x="355" y="195" width="130" height="60" rx="8"/>
+          </g>
+          <text x="290" y="90" text-anchor="middle" fill="#cdd3e4" font-size="11">environnement</text>
+          <text x="290" y="160" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">l'entreprise ici</text>
+          <text x="290" y="230" text-anchor="middle" fill="#cdd3e4" font-size="11">filiales / services</text>
+          <text x="430" y="160" text-anchor="middle" fill="#9aa3b8" font-size="10.5">→ stratégie</text>
+        </svg>
+        <div class="cap">9 boîtes = 3 niveaux × (Passé · Présent · Futur)</div>
+      </div>
+
+      <div class="card"><p style="margin:0;font-size:14px">📌 <strong>Le triplet de l'action</strong> : toute action = <strong>Sujet → Verbe d'action → Objet</strong>. Un ensemble d'actions coordonnées = des <strong>opérations</strong>. Chaque action génère des effets non tous prévisibles → source d'incertitude.</p></div>
+      <div class="keep"><div class="h">⭐ À retenir</div>Système / Sous-système / Méta-système = affaire de <strong>perspective</strong>. La matrice 9 boîtes croise ces 3 niveaux avec Passé/Présent/Futur. La stratégie occupe le haut (méta/système) tourné vers le futur ; les opérations occupent le bas (système/sous-système) au présent.</div>
+    </section>
+
+    <!-- M5 -->
+    <section id="m5" data-mod>
+      <span class="eyebrow">🌍 Module 5 · Séance 4 · <span style="color:var(--red)">PILIER 1</span></span>
+      <h2 class="title">Le Méta-système &amp; les 3 sphères de Passet</h2>
+      <p class="lead">Pour cartographier l'environnement complet d'une entreprise (toutes ses parties prenantes), on utilise la <strong>théorie des 3 sphères de René Passet</strong> : des cercles emboîtés.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 460 380" role="img" aria-label="Trois sphères de Passet">
+          <circle cx="230" cy="190" r="180" fill="rgba(52,211,153,.05)" stroke="#34d399"/>
+          <text x="230" y="35" text-anchor="middle" fill="#34d399" font-weight="700" font-size="13">BIOSPHÈRE (ressources naturelles)</text>
+          <circle cx="230" cy="205" r="135" fill="rgba(168,85,247,.06)" stroke="#a855f7"/>
+          <text x="230" y="95" text-anchor="middle" fill="#a855f7" font-weight="700" font-size="13">MÉTA-SYSTÈME</text>
+          <text x="230" y="112" text-anchor="middle" fill="#9aa3b8" font-size="10">politique · droit · clients · concurrents · médias · banques</text>
+          <circle cx="230" cy="220" r="82" fill="rgba(224,169,59,.08)" stroke="#e0a93b"/>
+          <text x="230" y="200" text-anchor="middle" fill="#e0a93b" font-weight="700" font-size="13">SYSTÈME</text>
+          <text x="230" y="218" text-anchor="middle" fill="#9aa3b8" font-size="10">board · managers · employés</text>
+          <circle cx="230" cy="245" r="34" fill="rgba(91,141,239,.12)" stroke="#5b8def"/>
+          <text x="230" y="250" text-anchor="middle" fill="#5b8def" font-weight="700" font-size="11">SOUS-SYS.</text>
+        </svg>
+        <div class="cap">Biosphère ⊃ Méta-système ⊃ Système ⊃ Sous-système (René Passet)</div>
+      </div>
+
+      <h3>La confrontation : approche directe vs indirecte (Sun Tzu)</h3>
+      <div class="def"><div class="term">Confrontation</div><span class="src">Clausewitz</span><p style="margin:6px 0 0">« <strong>L'opposition de deux volontés</strong> » — à considérer <strong>indépendamment de toute violence</strong> (un débat, des soldes, la concurrence sont des confrontations).</p></div>
+      <div class="grid2">
+        <div class="card" style="border-color:var(--acc)"><strong style="color:var(--acc)">⚔️ Approche directe</strong><p style="font-size:14px">« Droit au but ». Affrontement frontal. <br><em>Ex. Dassault Systèmes</em> : pousse sa plateforme directement vers les clients B2B.</p></div>
+        <div class="card" style="border-color:var(--steel)"><strong style="color:var(--steel)">🌀 Approche indirecte</strong><p style="font-size:14px">Déséquilibrer la défense, puis s'engouffrer dans un espace libre. <br><em>Ex. Google + langage Go</em> : s'appuie sur la communauté (méta-système) plutôt que d'attaquer Python/Java de front.</p></div>
+      </div>
+      <div class="keep"><div class="h">⭐ À retenir</div>Les 3 sphères de Passet (ordre : Biosphère → Méta → Système → Sous-système) cartographient les parties prenantes. Confrontation = opposition de volontés (sans violence nécessaire). Directe = frontal ; indirecte = contournement (Dassault vs Google/Go).</div>
+    </section>
+
+    <!-- M6 -->
+    <section id="m6" data-mod>
+      <span class="eyebrow">🌫️ Module 6 · <span style="color:var(--acc)">PILIER 2</span></span>
+      <h2 class="title">Clausewitz : friction, incertitude, trinité</h2>
+      <p class="lead">Le réaliste. Sa thèse : on ne peut <strong>pas tout calculer</strong>. La réalité résiste au plan (friction), l'imprévu domine, et toute confrontation tend à dégénérer (ascension aux extrêmes).</p>
+
+      <div class="why"><b>L'intuition.</b> Clausewitz s'oppose à la vision <b>technocratique</b> (« tout se modélise, se calcule, se prédit, l'IA résoudra tout »). Pour lui, les <b>émotions</b>, le <b>hasard</b> et les <b>frictions</b> rendent toute « géométrie du champ de bataille » impossible.</p></div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 700 130" role="img" aria-label="Technocratie vs Clausewitz">
+          <rect x="15" y="20" width="320" height="90" rx="12" fill="rgba(91,141,239,.06)" stroke="#5b8def"/>
+          <text x="175" y="45" text-anchor="middle" fill="#5b8def" font-weight="700" font-size="13">VISION TECHNOCRATIQUE</text>
+          <text x="175" y="72" text-anchor="middle" fill="#cdd3e4" font-size="12">Rationalité → Modélisation →</text>
+          <text x="175" y="92" text-anchor="middle" fill="#cdd3e4" font-size="12">Calcul → Prédiction → IA</text>
+          <text x="350" y="72" text-anchor="middle" fill="#fb7185" font-weight="800" font-size="20">VS</text>
+          <rect x="365" y="20" width="320" height="90" rx="12" fill="rgba(224,169,59,.06)" stroke="#e0a93b"/>
+          <text x="525" y="45" text-anchor="middle" fill="#e0a93b" font-weight="700" font-size="13">VISION DE CLAUSEWITZ</text>
+          <text x="525" y="72" text-anchor="middle" fill="#cdd3e4" font-size="12">Émotions → Frictions →</text>
+          <text x="525" y="92" text-anchor="middle" fill="#cdd3e4" font-size="12">Hasard → Imprévisibilité</text>
+        </svg>
+        <div class="cap">Les deux visions opposées de la décision</div>
+      </div>
+
+      <h3>L'ascension aux extrêmes &amp; le point culminant</h3>
+      <div class="def"><div class="term">Ascension aux extrêmes</div><span class="src">Clausewitz</span><p style="margin:6px 0 0">« Toute action provoque une réaction » → chaque camp engage toujours plus de moyens, par <strong>surenchères successives</strong>, jusqu'au <strong>point culminant</strong>. Le vainqueur = celui qui l'atteint en premier et pousse l'autre au renoncement. Ensuite = <strong>exploitation du succès</strong>.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 600 220" role="img" aria-label="Ascension aux extrêmes">
+          <line x1="50" y1="190" x2="560" y2="190" stroke="#272d3d"/><line x1="50" y1="190" x2="50" y2="20" stroke="#272d3d"/>
+          <text x="300" y="212" text-anchor="middle" fill="#6b7390" font-size="11">temps / surenchères →</text>
+          <text x="25" y="100" fill="#6b7390" font-size="11" transform="rotate(-90 25 100)" text-anchor="middle">moyens engagés</text>
+          <polyline points="60,180 140,180 140,150 230,150 230,110 320,110 320,65 410,65 410,40" fill="none" stroke="#e0a93b" stroke-width="2.5"/>
+          <circle cx="410" cy="40" r="6" fill="#fb7185"/><text x="430" y="38" fill="#fb7185" font-size="12" font-weight="700">point culminant</text>
+          <text x="430" y="56" fill="#9aa3b8" font-size="10.5">puis : exploitation du succès</text>
+        </svg>
+        <div class="cap">Chaque réaction relance l'escalade — jusqu'au point culminant</div>
+      </div>
+      <div class="quote">« Il faut savoir <strong>terminer une grève</strong> dès que la satisfaction a été obtenue… savoir consentir au compromis si on a obtenu la victoire sur les plus essentielles revendications. »<span class="who">Maurice Thorez, 1936 — savoir s'arrêter quand le coût dépasse le gain</span></div>
+
+      <h3>La trinité de Clausewitz (transposée à l'entreprise)</h3>
+      <div class="diagram">
+        <svg viewBox="0 0 520 240" role="img" aria-label="Trinité de Clausewitz">
+          <polygon points="260,25 480,210 40,210" fill="none" stroke="#272d3d" stroke-width="1.5"/>
+          <g text-anchor="middle">
+            <circle cx="260" cy="40" r="8" fill="#e0a93b"/><text x="260" y="72" fill="#fff" font-weight="700" font-size="13">GOUVERNEMENT</text><text x="260" y="90" fill="#9aa3b8" font-size="11">réflexion / conduite</text><text x="260" y="107" fill="#e0a93b" font-size="11" font-weight="700">= Directeur Général / CA</text>
+            <circle cx="55" cy="205" r="8" fill="#5b8def"/><text x="95" y="180" fill="#fff" font-weight="700" font-size="13">GÉNÉRAL</text><text x="95" y="198" fill="#9aa3b8" font-size="11">calcul / hasard</text><text x="95" y="215" fill="#5b8def" font-size="11" font-weight="700">= Comité Exécutif</text>
+            <circle cx="465" cy="205" r="8" fill="#34d399"/><text x="425" y="180" fill="#fff" font-weight="700" font-size="13">PEUPLE</text><text x="425" y="198" fill="#9aa3b8" font-size="11">émotions / engagement</text><text x="425" y="215" fill="#34d399" font-size="11" font-weight="700">= Collaborateurs</text>
+          </g>
+        </svg>
+        <div class="cap">Gouvernement · Général · Peuple → DG · Comité exécutif · Collaborateurs</div>
+      </div>
+      <div class="keep"><div class="h">⭐ À retenir</div>Friction = écart plan/réalité. Ascension aux extrêmes → point culminant (seul le dirigeant peut l'<strong>arrêter</strong>). Trinité = Gouvernement / Général / Peuple. La <strong>dialectique théorie (stratégie) vs pratique (opérations)</strong> : opposées mais toutes deux nécessaires. Principe : « toujours <strong>échelonner l'engagement des ressources</strong> ».</div>
+    </section>
+
+    <!-- M7 -->
+    <section id="m7" data-mod>
+      <span class="eyebrow">🐉 Module 7 · <span style="color:var(--steel)">PILIER 3</span></span>
+      <h2 class="title">Sun Tzu : le renseignement et la ruse</h2>
+      <p class="lead">L'économe. Sa thèse : la meilleure victoire est celle qu'on obtient <strong>sans combattre</strong>, grâce au <strong>renseignement</strong> et à l'intelligence de la situation.</p>
+
+      <div class="grid2">
+        <div class="quote">« La <strong>victoire est essentielle, mais elle doit être limitée au nécessaire</strong>. »<span class="who">Sun Tzu</span></div>
+        <div class="quote">« <strong>Vaincre, mais en évitant le combat</strong> » — coûteux en ressources.<span class="who">Sun Tzu</span></div>
+      </div>
+
+      <div class="def"><div class="term">Le renseignement = la condition de la victoire</div><span class="src">Sun Tzu</span><p style="margin:6px 0 0">Le <strong>recueil préalable d'informations</strong> est LA condition de la victoire. En langage TRIZ, le renseignement porte sur le <strong>méta-système</strong> (tout ce qui environne ton système : marché, concurrents, technologies, politique). C'est l'ancêtre de <strong>l'intelligence économique</strong>.</p></div>
+
+      <div class="card"><h4 style="margin-top:0">La Doctrine (se mettre en ordre de bataille)</h4>
+      <p style="font-size:14px">Sun Tzu insiste sur 3 piliers pour organiser ses ressources :</p>
+      <p><span class="pill s">Organisation</span><span class="pill s">Autorité</span><span class="pill s">Logistique</span></p>
+      <p class="mut" style="font-size:13.5px;margin:0">+ principe d'<strong>économie des ressources</strong> : une campagne prolongée épuise et rend vulnérable (ex. ATOS).</p>
+      </div>
+
+      <h3>Les deux cas d'espionnage du cours</h3>
+      <div class="grid2">
+        <div class="card"><strong>🪞 Murano → Saint-Gobain (XVIIᵉ s.)</strong><p style="font-size:13.5px">Venise détient le secret des grands miroirs. Colbert envoie des espions (1662), corrompt des verriers vénitiens → la France capte le savoir-faire → Manufacture royale → <strong>Saint-Gobain</strong> (50 Mds€ aujourd'hui). Le renseignement comme arme stratégique.</p></div>
+        <div class="card"><strong>💻 TSMC vs Intel (XXIᵉ s.)</strong><p style="font-size:13.5px">Enquête sur un ex-cadre de TSMC soupçonné de fuite. Version moderne : le renseignement industriel reste central. (Loi française du 30 juillet 2018 sur le secret des affaires.)</p></div>
+      </div>
+      <div class="keep"><div class="h">⭐ À retenir</div>Sun Tzu = renseignement (= condition de la victoire, porte sur le méta-système) + économie des ressources + vaincre sans combattre + approche directe/indirecte. Doctrine = Organisation / Autorité / Logistique.</div>
+    </section>
+
+    <!-- M8 -->
+    <section id="m8" data-mod>
+      <span class="eyebrow">🧭 Module 8 · Séance 5</span>
+      <h2 class="title">Conduire la stratégie : la synthèse</h2>
+      <p class="lead">La dernière séance assemble les 3 piliers en un <strong>processus de conception</strong>, et insiste sur les <strong>facteurs immatériels</strong> (moral, confiance) qu'aucun calcul ne capture.</p>
+
+      <h3>Le processus de conception d'une stratégie</h3>
+      <div class="flow" style="flex-direction:column;align-items:stretch;max-width:640px;margin:18px auto">
+        <div class="node" style="text-align:left;min-width:auto">1 · <strong>Analyse stratégique</strong> (système + méta-système, renseignement)</div>
+        <div class="arr">↓</div>
+        <div class="node" style="text-align:left;min-width:auto;border-color:var(--acc)">2 · <strong>Définir la stratégie / l'objectif idéal</strong> (idéalité, hypothèses)</div>
+        <div class="arr">↓</div>
+        <div class="node" style="text-align:left;min-width:auto;border-color:var(--steel)">3 · <strong>Concevoir les opérations</strong> (synchroniser les ressources)</div>
+        <div class="arr">↓</div>
+        <div class="node" style="text-align:left;min-width:auto">4 · <strong>Conduire les opérations</strong> (adapter face aux frictions)</div>
+        <div class="arr">↓</div>
+        <div class="node" style="text-align:left;min-width:auto;border-color:var(--green)">5 · <strong>Se rapprocher de l'état final recherché</strong> ⟲ boucle de pilotage</div>
+      </div>
+      <p class="mut" style="font-size:14px">Deux emphases : côté stratégie = <strong>les finalités</strong> ; côté opérations = <strong>les ressources, leur synchronisation et leurs effets dans l'espace et le temps</strong>. Le cours insiste : « ce qui compte n'est pas la méthode suivie mais le <strong>succès</strong> de la stratégie ».</p>
+
+      <h3>Les facteurs immatériels</h3>
+      <div class="grid2">
+        <div class="card"><strong>Le moral / les émotions</strong><p style="font-size:14px">Omniprésent (Clausewitz) → rend impossible toute « géométrie du champ de bataille ». Sun Tzu : recherche de l'<strong>harmonie entre le peuple et le souverain</strong>.</p></div>
+        <div class="card"><strong>La confiance (Luhmann)</strong><p style="font-size:14px">« Ne pas oublier la confiance, car elle permet de <strong>réduire la complexité de la décision</strong>. » C'est le liant de la trinité.</p></div>
+      </div>
+      <div class="trap"><div class="h">⚠️ Mise en garde clé</div>« Une stratégie <strong>trop minutieuse se heurtera à la réalité des opérations</strong> » : elle doit rester assez large pour absorber l'enchaînement imprévisible des événements (friction).</div>
+    </section>
+
+    <!-- M9 -->
+    <section id="m9" data-mod>
+      <span class="eyebrow">📂 Module 9</span>
+      <h2 class="title">Les cas à connaître</h2>
+      <p class="lead">Le cours illustre par des cas historiques et actuels. Pour chacun : quel concept il illustre.</p>
+
+      <table>
+        <tr><th>Cas</th><th>Illustre</th></tr>
+        <tr><td><strong>Hewlett-Packard</strong> (2001-2006)</td><td>Contre-exemple de gouvernance : opérations sans stratégie, trinité déséquilibrée (intérêts perso &gt; vision), crises à répétition. Oubli de la confiance (Luhmann).</td></tr>
+        <tr><td><strong>Murano → Saint-Gobain</strong></td><td>Renseignement / intelligence économique comme arme stratégique (Sun Tzu). Colbert vole le secret des miroirs vénitiens.</td></tr>
+        <tr><td><strong>TSMC vs Intel</strong></td><td>Version moderne de l'espionnage industriel ; secret des affaires.</td></tr>
+        <tr><td><strong>Lithium en Alsace</strong> (2023-26)</td><td>Lecture en 9 boîtes : système (Vulcan/ES) vs méta-système (élus, 40/42 communes contre) ; principes évolutifs enfreints (concertation).</td></tr>
+        <tr><td><strong>Dassault Systèmes</strong></td><td>Stratégie <strong>directe</strong> : pousse sa plateforme frontalement vers les clients B2B.</td></tr>
+        <tr><td><strong>Google + langage Go</strong></td><td>Stratégie <strong>indirecte</strong> : s'appuie sur la communauté (méta-système) au lieu d'attaquer les langages établis.</td></tr>
+      </table>
+
+      <div class="keep"><div class="h">⭐ Méthode QCM</div>Pour chaque cas, sache <strong>relier le cas → le concept</strong> (c'est ce que teste le QCM). Ex : « Murano illustre quoi ? » → le renseignement. « Google/Go ? » → l'approche indirecte. « HP ? » → trinité déséquilibrée.</div>
+      <p style="text-align:center;margin-top:30px"><a href="#flash" class="btn prim" style="display:inline-block;text-decoration:none">→ S'entraîner : Flashcards</a></p>
+    </section>
+
+    <!-- FLASH -->
+    <section id="flash" data-mod>
+      <span class="eyebrow">🃏 Entraînement</span>
+      <h2 class="title">Flashcards</h2>
+      <p class="lead">Clique la carte pour révéler la réponse. Réponds à voix haute avant de retourner.</p>
+      <div class="deckpick" id="deckpick"></div>
+      <div class="fcwrap">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="fcinner">
+            <div class="fcface fcfront"><div class="fctag" id="fctag">—</div><div class="q" id="fcq">—</div><div class="hint">👆 clique pour voir la réponse</div></div>
+            <div class="fcface fcback"><div class="fctag">Réponse</div><div class="a" id="fca">—</div></div>
+          </div>
+        </div>
+        <div class="fcnav">
+          <button class="btn" onclick="prevCard(event)">← Précédent</button>
+          <span class="fccount" id="fccount">1 / 1</span>
+          <button class="btn prim" onclick="nextCard(event)">Suivant →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" data-mod>
+      <span class="eyebrow">✅ Test final</span>
+      <h2 class="title">QCM blanc</h2>
+      <p class="lead">15 questions façon examen. Clique ta réponse → correction immédiate avec explication.</p>
+      <div id="quizbox"></div>
+      <div class="scorebox" id="scorebox">Score : 0 / 0 répondu — clique les réponses !</div>
+    </section>
+
+    <div style="max-width:1000px;margin:0 auto;padding:40px;text-align:center;color:var(--dim)">
+      <p style="font-size:14px">Sprint terminé. 🌙 Révise en priorité : <strong style="color:var(--acc)">les contradictions TRIZ</strong>, <strong style="color:var(--acc)">l'idéalité + 8 tendances</strong>, <strong style="color:var(--acc)">la trinité de Clausewitz</strong> et <strong style="color:var(--acc)">le renseignement de Sun Tzu</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const mods=[...document.querySelectorAll('[data-mod]')];
+const navlinks=[...document.querySelectorAll('#nav a, .side nav a')];
+const STORE='sprintStrategieProgress';
+let done=JSON.parse(localStorage.getItem(STORE)||'{}');
+const crumb=document.getElementById('crumb'),markbtn=document.getElementById('markbtn');
+let current='sprint';
+function refreshProgress(){
+  const total=9;const n=Object.keys(done).filter(k=>/^m\d+$/.test(k)&&done[k]).length;
+  document.getElementById('pf').style.width=(n/total*100)+'%';
+  document.getElementById('pt').textContent=n+' / '+total+' modules';
+  navlinks.forEach(a=>a.classList.toggle('done',!!done[a.dataset.s]));
+}
+function setCurrent(id){
+  current=id;
+  navlinks.forEach(a=>a.classList.toggle('on',a.dataset.s===id));
+  const a=navlinks.find(x=>x.dataset.s===id);
+  if(a)crumb.textContent=a.textContent.trim();
+  const isMarkable=/^m\d+$/.test(id);
+  markbtn.style.display=isMarkable?'block':'none';
+  if(isMarkable){markbtn.classList.toggle('done',!!done[id]);markbtn.textContent=done[id]?'✓ Module lu':'○ Marquer comme lu';}
+}
+markbtn.onclick=()=>{done[current]=!done[current];localStorage.setItem(STORE,JSON.stringify(done));refreshProgress();setCurrent(current);};
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>0.3)setCurrent(e.target.id);});},{threshold:[0.3],rootMargin:'-10% 0px -50% 0px'});
+mods.forEach(m=>io.observe(m));
+refreshProgress();setCurrent('sprint');
+
+const decks={
+  "Définitions ★":[
+    ["Que signifie l'acronyme TRIZ ?","Théorie de Résolution des problèmes Inventifs (acronyme russe). Auteur : Genrich Altshuller, à partir de l'étude de milliers de brevets."],
+    ["Formule de l'idéalité ?","Idéalité = Bénéfices / (Coûts + Négativité). On la maximise en ↑ bénéfices et ↓ coûts + effets indésirables. Sert à choisir l'hypothèse stratégique."],
+    ["Contradiction technique vs physique ?","Technique = améliorer A dégrade B (2 paramètres) → se résout en changeant de champ. Physique = 2 propriétés antinomiques d'une même entité → se résout par segmentation."],
+    ["Définition de la confrontation (Clausewitz) ?","« L'opposition de deux volontés » — indépendamment de toute violence (un débat, des soldes, la concurrence en sont)."],
+    ["Stratégie vs tactique ?","Stratégie = les fins (le but). Tactique/opérations = les moyens (le comment). Tout le cours articule les deux."],
+    ["Le triplet de l'action (TRIZ) ?","Sujet → Verbe d'action → Objet. Un ensemble d'actions coordonnées = des opérations."]
+  ],
+  "Frameworks":[
+    ["Les 3 niveaux TRIZ ?","Sous-système ⊂ Système ⊂ Méta-système. L'appartenance est une question de perspective (qui me contrôle / qui je contrôle)."],
+    ["La matrice 9 boîtes ?","3 niveaux (Méta/Système/Sous-système) × 3 temps (Passé/Présent/Futur). Cartographie acteurs et interactions."],
+    ["Les 3 sphères de Passet ?","Biosphère ⊃ Méta-système ⊃ Système ⊃ Sous-système. Cartographie toutes les parties prenantes."],
+    ["La trinité de Clausewitz ?","Gouvernement (réflexion = DG/CA) · Général (calcul/hasard = Comité exécutif) · Peuple (émotions/engagement = collaborateurs)."],
+    ["Combien de tendances d'évolution / principes inventifs ?","8 tendances d'évolution des systèmes · 40 principes inventifs · 39 contradictions/paramètres techniques."],
+    ["La Doctrine de Sun Tzu (3 piliers) ?","Organisation · Autorité · Logistique. + économie des ressources (une campagne prolongée épuise)."]
+  ],
+  "Citations & auteurs":[
+    ["Sun Tzu sur la victoire ?","« La victoire est essentielle, mais elle doit être limitée au nécessaire » / « Vaincre, mais en évitant le combat »."],
+    ["Clausewitz sur la confrontation ?","« La guerre est l'opposition de deux volontés. »"],
+    ["Thorez (1936) — quelle leçon ?","« Il faut savoir terminer une grève dès que la satisfaction a été obtenue… » → savoir s'arrêter / négocier quand le coût dépasse le gain."],
+    ["Luhmann sur la confiance ?","La confiance permet de réduire la complexité de la décision."],
+    ["Selon Sun Tzu, condition de la victoire ?","Le recueil préalable d'informations (le renseignement). Il porte sur le méta-système."],
+    ["Définition de l'invention selon TRIZ ?","L'adoption d'une connaissance venant d'un autre champ / domaine."]
+  ],
+  "Pièges & cas ⚠️":[
+    ["Le compromis résout-il une contradiction technique ?","NON. Il l'atténue seulement. On la résout en changeant de champ.","piege"],
+    ["L'ascension aux extrêmes mène à quoi ? Qui l'arrête ?","Au point culminant (le vainqueur l'atteint en premier). Seul le dirigeant (niveau politique/C-Level) peut l'arrêter."],
+    ["Que faut-il retenir du cas HP ?","Contre-exemple : opérations sans stratégie, trinité déséquilibrée (intérêts perso > vision), oubli de la confiance."],
+    ["Murano → Saint-Gobain illustre quoi ?","Le renseignement / l'intelligence économique comme arme (Sun Tzu). Colbert vole le secret des miroirs."],
+    ["Dassault vs Google/Go ?","Dassault = stratégie directe (frontale). Google/Go = stratégie indirecte (s'appuie sur la communauté du méta-système)."],
+    ["Une stratégie est-elle linéaire ?","NON. Courbe en S : paliers, ralentissements à anticiper. « Une stratégie trop minutieuse se heurte à la réalité des opérations. »"]
+  ]
+};
+let curDeck=Object.keys(decks)[0],curIdx=0;
+const dp=document.getElementById('deckpick');
+Object.keys(decks).forEach(name=>{
+  const b=document.createElement('div');b.className='dk'+(name===curDeck?' on':'');b.textContent=name;
+  b.onclick=()=>{curDeck=name;curIdx=0;[...dp.children].forEach(c=>c.classList.toggle('on',c.textContent===name));renderCard();};
+  dp.appendChild(b);
+});
+function renderCard(){
+  const card=decks[curDeck][curIdx];
+  document.getElementById('flashcard').classList.remove('flip');
+  setTimeout(()=>{
+    document.getElementById('fctag').textContent=curDeck;
+    document.getElementById('fcq').textContent=card[0];
+    document.getElementById('fca').textContent=card[1];
+    document.getElementById('fccount').textContent=(curIdx+1)+' / '+decks[curDeck].length;
+  },120);
+}
+function flipCard(){document.getElementById('flashcard').classList.toggle('flip');}
+function nextCard(e){e.stopPropagation();curIdx=(curIdx+1)%decks[curDeck].length;renderCard();}
+function prevCard(e){e.stopPropagation();curIdx=(curIdx-1+decks[curDeck].length)%decks[curDeck].length;renderCard();}
+renderCard();
+
+const quiz=[
+ {q:"Que signifie TRIZ ?",o:["Théorie de Résolution des problèmes Inventifs","Technique de Recherche d'Innovation Zonale","Théorie du Risque et de l'Incertitude Zéro","Test de Rationalité Industrielle"],c:0,e:"Acronyme russe, méthode d'Altshuller fondée sur l'étude de milliers de brevets."},
+ {q:"La formule de l'idéalité est :",o:["Bénéfices × Coûts","Bénéfices / (Coûts + Négativité)","Coûts / Bénéfices","(Bénéfices − Coûts) × Temps"],c:1,e:"On maximise les bénéfices, on minimise coûts et effets négatifs. Sert à choisir une hypothèse stratégique."},
+ {q:"Une contradiction PHYSIQUE se résout typiquement par…",o:["Le compromis","La segmentation","L'augmentation du budget","L'arrêt du projet"],c:1,e:"Physique = 2 propriétés antinomiques d'une même entité → segmenter (dans le temps/l'espace). La technique, elle, se résout en changeant de champ."},
+ {q:"Combien de tendances d'évolution des systèmes propose TRIZ ?",o:["4","8","40","39"],c:1,e:"8 tendances d'évolution. À ne pas confondre : 40 principes inventifs et 39 contradictions techniques."},
+ {q:"La trinité de Clausewitz, c'est :",o:["Terre, Mer, Air","Gouvernement, Général, Peuple","Passé, Présent, Futur","Stratégie, Tactique, Logistique"],c:1,e:"Gouvernement (DG/CA) · Général (Comité exécutif) · Peuple (collaborateurs)."},
+ {q:"Selon Sun Tzu, la condition de la victoire est…",o:["La supériorité numérique","Le renseignement (recueil préalable d'informations)","La rapidité d'exécution","Le budget le plus élevé"],c:1,e:"Le renseignement porte sur le méta-système. C'est l'ancêtre de l'intelligence économique."},
+ {q:"L'ascension aux extrêmes (Clausewitz) aboutit à…",o:["Un compromis automatique","Le point culminant","La friction","La biosphère"],c:1,e:"Surenchères successives jusqu'au point culminant. Le vainqueur l'atteint en premier ; seul le dirigeant peut arrêter l'escalade."},
+ {q:"Les 3 sphères de Passet, dans l'ordre du plus large au plus étroit :",o:["Système → Méta → Biosphère","Biosphère → Méta-système → Système → Sous-système","Méta → Biosphère → Système","Sous-système → Système → Biosphère"],c:1,e:"Biosphère ⊃ Méta-système ⊃ Système ⊃ Sous-système."},
+ {q:"Le cas Murano → Saint-Gobain illustre :",o:["L'approche indirecte","Le renseignement économique (Sun Tzu)","La courbe en S","La trinité"],c:1,e:"Colbert vole le secret des miroirs vénitiens : le renseignement comme arme stratégique."},
+ {q:"Google qui impose le langage Go via la communauté est un exemple de…",o:["Stratégie directe","Stratégie indirecte","Contradiction physique","Friction"],c:1,e:"Approche indirecte : s'appuyer sur le méta-système (développeurs) plutôt qu'attaquer Python/Java de front. Dassault = directe."},
+ {q:"« Inventer », selon TRIZ, c'est :",o:["Créer à partir de rien","Adopter un savoir venant d'un autre champ","Améliorer par compromis","Copier un concurrent"],c:1,e:"Postulat d'Altshuller : l'invention = adoption d'une connaissance d'un autre domaine."},
+ {q:"Le compromis, face à une contradiction technique :",o:["La résout définitivement","Ne la résout pas, il l'atténue","L'aggrave toujours","Est interdit par TRIZ"],c:1,e:"Le compromis atténue seulement. La vraie résolution = changer de champ."},
+ {q:"Selon Luhmann, la confiance permet de…",o:["Augmenter les profits","Réduire la complexité de la décision","Remplacer la stratégie","Éviter le renseignement"],c:1,e:"La confiance est le liant de la trinité ; elle réduit la complexité décisionnelle."},
+ {q:"Système, sous-système, méta-système : l'appartenance est d'abord…",o:["Une question de taille","Une question de perspective (qui me contrôle / qui je contrôle)","Fixée par la loi","Une question de chiffre d'affaires"],c:1,e:"La même entité peut être système ET sous-système selon le point de vue."},
+ {q:"Une stratégie, selon le cours, est :",o:["Linéaire et prévisible","Non linéaire (courbe en S), avec paliers","Toujours identique aux opérations","Sans rapport avec les ressources"],c:1,e:"Courbe en S : paliers et ralentissements à anticiper. Une stratégie trop minutieuse se heurte à la réalité des opérations."},
+ {q:"Le cas Hewlett-Packard (2001-2006) illustre surtout :",o:["Une trinité déséquilibrée / opérations sans stratégie","Une contradiction physique","Une parfaite approche indirecte","La formule de l'idéalité"],c:0,e:"Gouvernance défaillante : intérêts personnels > vision, oubli de la confiance, crises non résolues."}
+];
+let answered=0,score=0;
+const qb=document.getElementById('quizbox');
+quiz.forEach((item,i)=>{
+  const card=document.createElement('div');card.className='q-card';
+  card.innerHTML=`<div class="q-num">Question ${i+1} / ${quiz.length}</div><div class="q-txt">${item.q}</div>`;
+  item.o.forEach((opt,j)=>{
+    const o=document.createElement('div');o.className='opt';o.textContent=opt;
+    o.onclick=()=>{
+      if(card.dataset.done)return;card.dataset.done=1;
+      [...card.querySelectorAll('.opt')].forEach(x=>x.classList.add('disabled'));
+      if(j===item.c){o.classList.add('correct');score++;}
+      else{o.classList.add('wrong');card.querySelectorAll('.opt')[item.c].classList.add('correct');}
+      answered++;
+      card.querySelector('.explain').classList.add('show');
+      updateScore();
+    };
+    card.appendChild(o);
+  });
+  const ex=document.createElement('div');ex.className='explain';ex.innerHTML='💡 '+item.e;card.appendChild(ex);
+  qb.appendChild(card);
+});
+function updateScore(){
+  const sb=document.getElementById('scorebox');
+  sb.textContent=`Score : ${score} / ${answered} répondu`+(answered===quiz.length?` — TERMINÉ ! ${score>=12?'🔥 Tu es prêt.':score>=8?'👍 Solide, révise les ratés.':'📚 Reprends les modules.'}`:'');
+}
+</script>
+</body>
+</html>
