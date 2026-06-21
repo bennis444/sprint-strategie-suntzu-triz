@@ -119,6 +119,18 @@
   .acrolines b{color:var(--acc);font-weight:800}
   .acrotrick{font-size:13px;background:rgba(224,169,59,.12);border-left:3px solid var(--acc);border-radius:0 9px 9px 0;padding:8px 12px;color:#2c2e38}
   .acrotrick b{color:var(--acc)}
+  /* atelier coche & juge */
+  .ngame-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ngame-asso{flex:1;min-width:150px;font-size:14px;font-weight:700;color:var(--txt)}
+  .ntoggle{display:flex;gap:6px;flex-wrap:wrap}
+  .nbtn{font-size:12px;font-weight:700;padding:7px 11px;border-radius:8px;border:1px solid var(--line);background:var(--card2);cursor:pointer;color:var(--txt);transition:.12s}
+  .nbtn:hover{border-color:var(--acc)}
+  .nbtn.sel{border-color:var(--acc);background:rgba(224,169,59,.16)}
+  .nbtn.ok{border-color:var(--green);background:rgba(52,211,153,.18);color:#0a7d52}
+  .nbtn.ko{border-color:var(--red);background:rgba(251,113,133,.16);color:#b91c3c}
+  .ngame-fb{font-size:12.5px;color:var(--mut);width:100%;padding-left:2px;display:none}
+  .ngame-fb.show{display:block}
+  .quizfield-h{font-size:13px;font-weight:800;color:var(--acc);margin:18px 0 4px;text-transform:uppercase;letter-spacing:.5px}
   .quote{border-left:3px solid var(--steel);padding:10px 18px;margin:16px 0;font-style:italic;color:#2a3550;background:rgba(91,141,239,.07);border-radius:0 10px 10px 0}
   .quote .who{display:block;font-style:normal;font-size:12px;color:var(--steel);font-weight:700;margin-top:6px;text-transform:uppercase;letter-spacing:1px}
   .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--card2);border:1px solid var(--line);color:var(--mut);margin:2px}
@@ -218,7 +230,7 @@
     <nav>
       <a href="#memo" data-s="memo"><span class="ico">🧠</span>Mémo &amp; mnémo<span class="dot"></span></a>
       <a href="#flash" data-s="flash"><span class="ico">🃏</span>Flashcards<span class="dot"></span></a>
-      <a href="#quiz" data-s="quiz"><span class="ico">✅</span>QCM blanc<span class="dot"></span></a>
+      <a href="#quiz" data-s="quiz"><span class="ico">✅</span>QCM appliqués<span class="dot"></span></a>
     </nav>
     <div style="padding:18px 12px;font-size:11px;color:var(--dim);line-height:1.5">Progression sauvegardée automatiquement dans ce navigateur.</div>
   </aside>
@@ -812,11 +824,22 @@
 
     <!-- QUIZ -->
     <section id="quiz" data-mod>
-      <span class="eyebrow">✅ Test final</span>
-      <h2 class="title">QCM blanc</h2>
-      <p class="lead">15 questions façon examen. Clique ta réponse → correction immédiate avec explication.</p>
+      <span class="eyebrow">✅ S'auto-évaluer en APPLIQUANT</span>
+      <h2 class="title">QCM appliqués — un par chapitre</h2>
+      <p class="lead">Le QCM ne sert à rien si c'est du par-cœur. Ici tu <strong>classes, tu identifies, tu juges</strong> — comme au vrai QCM. Commence par l'atelier, puis teste chaque chapitre.</p>
+
+      <div class="casehead">🗂️ Atelier interactif — « classe les acteurs » (Système / Méta / Sous) <span class="tagp b-red">9 boîtes</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px"><strong>Cas :</strong> une usine Renault. <strong>Pour chaque acteur</strong>, dis s'il appartient au <strong style="color:var(--acc)">Système</strong> (l'entreprise), au <strong style="color:var(--purple)">Méta-système</strong> (ce qui la dépasse) ou au <strong style="color:var(--steel)">Sous-système</strong> (à l'intérieur).</p>
+        <div id="noyauGame"></div>
+        <button class="btn prim" id="noyauCheck" style="margin-top:14px">Vérifier mon classement</button>
+        <div id="noyauStep2" style="margin-top:16px"></div>
+      </div>
+
+      <div class="quizfield-h">📚 Puis : choisis un chapitre à tester</div>
+      <div class="deckpick" id="quizpick"></div>
       <div id="quizbox"></div>
-      <div class="scorebox" id="scorebox">Score : 0 / 0 répondu — clique les réponses !</div>
+      <div class="scorebox" id="scorebox">👆 Choisis un chapitre ci-dessus pour démarrer le QCM appliqué.</div>
     </section>
 
     <div style="max-width:1000px;margin:0 auto;padding:40px;text-align:center;color:var(--dim)">
@@ -908,48 +931,101 @@ function nextCard(e){e.stopPropagation();curIdx=(curIdx+1)%decks[curDeck].length
 function prevCard(e){e.stopPropagation();curIdx=(curIdx-1+decks[curDeck].length)%decks[curDeck].length;renderCard();}
 renderCard();
 
-const quiz=[
- {q:"Que signifie TRIZ ?",o:["Théorie de Résolution des problèmes Inventifs","Technique de Recherche d'Innovation Zonale","Théorie du Risque et de l'Incertitude Zéro","Test de Rationalité Industrielle"],c:0,e:"Acronyme russe, méthode d'Altshuller fondée sur l'étude de milliers de brevets."},
- {q:"La formule de l'idéalité est :",o:["Bénéfices × Coûts","Bénéfices / (Coûts + Négativité)","Coûts / Bénéfices","(Bénéfices − Coûts) × Temps"],c:1,e:"On maximise les bénéfices, on minimise coûts et effets négatifs. Sert à choisir une hypothèse stratégique."},
- {q:"Une contradiction PHYSIQUE se résout typiquement par…",o:["Le compromis","La segmentation","L'augmentation du budget","L'arrêt du projet"],c:1,e:"Physique = 2 propriétés antinomiques d'une même entité → segmenter (dans le temps/l'espace). La technique, elle, se résout en changeant de champ."},
- {q:"Combien de tendances d'évolution des systèmes propose TRIZ ?",o:["4","8","40","39"],c:1,e:"8 tendances d'évolution. À ne pas confondre : 40 principes inventifs et 39 contradictions techniques."},
- {q:"La trinité de Clausewitz, c'est :",o:["Terre, Mer, Air","Gouvernement, Général, Peuple","Passé, Présent, Futur","Stratégie, Tactique, Logistique"],c:1,e:"Gouvernement (DG/CA) · Général (Comité exécutif) · Peuple (collaborateurs)."},
- {q:"Selon Sun Tzu, la condition de la victoire est…",o:["La supériorité numérique","Le renseignement (recueil préalable d'informations)","La rapidité d'exécution","Le budget le plus élevé"],c:1,e:"Le renseignement porte sur le méta-système. C'est l'ancêtre de l'intelligence économique."},
- {q:"L'ascension aux extrêmes (Clausewitz) aboutit à…",o:["Un compromis automatique","Le point culminant","La friction","La biosphère"],c:1,e:"Surenchères successives jusqu'au point culminant. Le vainqueur l'atteint en premier ; seul le dirigeant peut arrêter l'escalade."},
- {q:"Les 3 sphères de Passet, dans l'ordre du plus large au plus étroit :",o:["Système → Méta → Biosphère","Biosphère → Méta-système → Système → Sous-système","Méta → Biosphère → Système","Sous-système → Système → Biosphère"],c:1,e:"Biosphère ⊃ Méta-système ⊃ Système ⊃ Sous-système."},
- {q:"Le cas Murano → Saint-Gobain illustre :",o:["L'approche indirecte","Le renseignement économique (Sun Tzu)","La courbe en S","La trinité"],c:1,e:"Colbert vole le secret des miroirs vénitiens : le renseignement comme arme stratégique."},
- {q:"Google qui impose le langage Go via la communauté est un exemple de…",o:["Stratégie directe","Stratégie indirecte","Contradiction physique","Friction"],c:1,e:"Approche indirecte : s'appuyer sur le méta-système (développeurs) plutôt qu'attaquer Python/Java de front. Dassault = directe."},
- {q:"« Inventer », selon TRIZ, c'est :",o:["Créer à partir de rien","Adopter un savoir venant d'un autre champ","Améliorer par compromis","Copier un concurrent"],c:1,e:"Postulat d'Altshuller : l'invention = adoption d'une connaissance d'un autre domaine."},
- {q:"Le compromis, face à une contradiction technique :",o:["La résout définitivement","Ne la résout pas, il l'atténue","L'aggrave toujours","Est interdit par TRIZ"],c:1,e:"Le compromis atténue seulement. La vraie résolution = changer de champ."},
- {q:"Selon Luhmann, la confiance permet de…",o:["Augmenter les profits","Réduire la complexité de la décision","Remplacer la stratégie","Éviter le renseignement"],c:1,e:"La confiance est le liant de la trinité ; elle réduit la complexité décisionnelle."},
- {q:"Système, sous-système, méta-système : l'appartenance est d'abord…",o:["Une question de taille","Une question de perspective (qui me contrôle / qui je contrôle)","Fixée par la loi","Une question de chiffre d'affaires"],c:1,e:"La même entité peut être système ET sous-système selon le point de vue."},
- {q:"Une stratégie, selon le cours, est :",o:["Linéaire et prévisible","Non linéaire (courbe en S), avec paliers","Toujours identique aux opérations","Sans rapport avec les ressources"],c:1,e:"Courbe en S : paliers et ralentissements à anticiper. Une stratégie trop minutieuse se heurte à la réalité des opérations."},
- {q:"Le cas Hewlett-Packard (2001-2006) illustre surtout :",o:["Une trinité déséquilibrée / opérations sans stratégie","Une contradiction physique","Une parfaite approche indirecte","La formule de l'idéalité"],c:0,e:"Gouvernance défaillante : intérêts personnels > vision, oubli de la confiance, crises non résolues."}
+/* ---------- atelier interactif : classe les acteurs (3 niveaux) ---------- */
+const lvlLabel={meta:"🟣 Méta",sys:"🟡 Système",sous:"🔵 Sous-sys."};
+const noyauData=[
+  {a:"Les lois européennes (norme CO₂)",lvl:"meta",fb:"MÉTA : le droit environne Renault et la dépasse — non contrôlable."},
+  {a:"La direction de l'usine",lvl:"sys",fb:"SYSTÈME : l'entreprise elle-même, là où se décide l'essentiel."},
+  {a:"L'atelier peinture",lvl:"sous",fb:"SOUS-SYSTÈME : une unité INTERNE qui exécute les directives de l'usine."},
+  {a:"Les concurrents (Toyota, VW)",lvl:"meta",fb:"MÉTA : acteurs externes du marché, hors du contrôle de Renault."},
+  {a:"Le prix de l'acier sur les marchés",lvl:"meta",fb:"MÉTA : une variable d'environnement subie, pas pilotée."},
+  {a:"Le service comptabilité interne",lvl:"sous",fb:"SOUS-SYSTÈME : un service À L'INTÉRIEUR de l'entreprise."}
 ];
-let answered=0,score=0;
-const qb=document.getElementById('quizbox');
-quiz.forEach((item,i)=>{
+const ng=document.getElementById('noyauGame');
+noyauData.forEach((d,i)=>{
+  const row=document.createElement('div');row.className='ngame-row';
+  row.innerHTML=`<div class="ngame-asso">${d.a}</div>
+    <div class="ntoggle"><button class="nbtn" data-v="meta">${lvlLabel.meta}</button><button class="nbtn" data-v="sys">${lvlLabel.sys}</button><button class="nbtn" data-v="sous">${lvlLabel.sous}</button></div>
+    <div class="ngame-fb">${d.fb}</div>`;
+  row.querySelectorAll('.nbtn').forEach(b=>{b.onclick=()=>{if(ng.dataset.done)return;row.querySelectorAll('.nbtn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');row.dataset.pick=b.dataset.v;};});
+  ng.appendChild(row);
+});
+document.getElementById('noyauCheck').onclick=()=>{
+  if(ng.dataset.done)return;ng.dataset.done=1;let good=0;
+  [...ng.children].forEach((row,i)=>{
+    const pick=row.dataset.pick, truth=noyauData[i].lvl, btns=row.querySelectorAll('.nbtn');
+    btns.forEach(b=>{if(b.dataset.v===truth)b.classList.add('ok');});
+    if(pick===truth)good++; else if(pick!==undefined){[...btns].find(b=>b.dataset.v===pick).classList.add('ko');}
+    row.querySelector('.ngame-fb').classList.add('show');
+  });
+  const s2=document.getElementById('noyauStep2');
+  s2.innerHTML=`<div class="ex"><div class="h">✅ ${good}/6 bien classés</div>Règle d'or : l'appartenance est une question de <strong>perspective</strong> (qui me contrôle / qui je contrôle). Le méta-système, c'est tout ce qu'on subit sans le piloter.</div>
+  <p style="font-size:14px;font-weight:700;margin:14px 0 6px">Étape 2 — Juge. Le projet <strong>lithium en Alsace</strong> a surtout échoué parce qu'il a négligé…</p><div id="gonogoBox"></div>`;
+  renderMCQ(document.getElementById('gonogoBox'),{q:"Ton diagnostic :",o:["Son système (technique pas au point)","Son méta-système (élus, population : pas de concertation)","Son sous-système (ateliers)","Sa trésorerie"],c:1,e:"Le projet était solide techniquement (système) mais a ignoré le MÉTA-SYSTÈME : 40 communes sur 42 contre, permis annulé pour défaut de concertation. Faute de synchronisation avec l'environnement."},()=>{});
+};
+
+/* ---------- QCM appliqués, un par chapitre ---------- */
+function renderMCQ(container,item,onAns){
   const card=document.createElement('div');card.className='q-card';
-  card.innerHTML=`<div class="q-num">Question ${i+1} / ${quiz.length}</div><div class="q-txt">${item.q}</div>`;
+  card.innerHTML=`<div class="q-txt">${item.q}</div>`;
   item.o.forEach((opt,j)=>{
     const o=document.createElement('div');o.className='opt';o.textContent=opt;
     o.onclick=()=>{
       if(card.dataset.done)return;card.dataset.done=1;
       [...card.querySelectorAll('.opt')].forEach(x=>x.classList.add('disabled'));
-      if(j===item.c){o.classList.add('correct');score++;}
-      else{o.classList.add('wrong');card.querySelectorAll('.opt')[item.c].classList.add('correct');}
-      answered++;
-      card.querySelector('.explain').classList.add('show');
-      updateScore();
+      const ok=(j===item.c);
+      if(ok){o.classList.add('correct');}else{o.classList.add('wrong');card.querySelectorAll('.opt')[item.c].classList.add('correct');}
+      card.querySelector('.explain').classList.add('show');onAns(ok);
     };
     card.appendChild(o);
   });
   const ex=document.createElement('div');ex.className='explain';ex.innerHTML='💡 '+item.e;card.appendChild(ex);
-  qb.appendChild(card);
+  container.appendChild(card);
+}
+const quizFields={
+ "⚙️ Contradictions TRIZ":[
+  {q:"« Rendre un emballage plus solide MAIS plus léger ». Quelle contradiction ?",o:["Technique : améliorer A (solidité) dégrade B (poids)","Physique","Aucune","De marché"],c:0,e:"Deux paramètres distincts s'opposent → contradiction TECHNIQUE → se résout en changeant de champ (nouveau matériau), pas par compromis."},
+  {q:"« Le café doit être CHAUD pour le goût MAIS FROID pour ne pas brûler ». Contradiction…",o:["Technique","Physique : 1 même entité, 2 exigences opposées → segmenter","Aucune","Dialectique"],c:1,e:"Une seule entité (le café) écartelée entre 2 propriétés → PHYSIQUE → segmentation (couvercle isolant, double paroi…)."},
+  {q:"Face à une contradiction technique, le compromis…",o:["la résout définitivement","ne fait que l'atténuer (vraie solution = changer de champ)","l'aggrave toujours","est interdit"],c:1,e:"Piège classique : le compromis n'est PAS une résolution, il déplace le curseur. On résout en sortant du cadre."}
+ ],
+ "📈 Idéalité & évolution":[
+  {q:"H1 a une idéalité de 1,1 ; H2 de 2,5. On retient…",o:["H1 (plus de bénéfices bruts)","H2 (idéalité la plus haute)","les deux","aucune"],c:1,e:"On garde l'idéalité MAXIMALE = bénéfices rapportés aux coûts+risques. Souvent H2 (ex. licence) : moins de marge mais bien moins de risque."},
+  {q:"Nokia, leader, rate le virage smartphone et s'effondre. Quelle tendance TRIZ ?",o:["L'idéalité","La courbe en S (le marché plafonne, il faut sauter sur la suivante)","La segmentation","Le triplet"],c:1,e:"Tendance n°8 : toute stratégie suit une courbe en S. Croire la courbe infinie = se faire dépasser à la rupture."},
+  {q:"La formule de l'idéalité, c'est…",o:["Bénéfices × Coûts","Bénéfices / (Coûts + Négativité)","Coûts / Bénéfices","Bénéfices − Coûts"],c:1,e:"Ne jamais oublier la Négativité au dénominateur (les effets indésirables) — c'est le piège du QCM."}
+ ],
+ "🗂️ Système & 9 boîtes":[
+  {q:"Pour Renault, « les lois européennes » appartiennent…",o:["au système","au méta-système (subi, non contrôlé)","au sous-système","au triplet"],c:1,e:"Le méta-système = tout ce qui environne et dépasse l'entreprise (droit, marché, concurrents, opinion)."},
+  {q:"La même usine est sous-système pour le siège, mais méta-système pour l'atelier peinture. Ça montre que l'appartenance est…",o:["une erreur de logique","une question de PERSPECTIVE (qui me contrôle / qui je contrôle)","fixée par la loi","une question de taille"],c:1,e:"Concept-clé : on définit les niveaux selon le point de vue. Une entité peut être les deux à la fois."},
+  {q:"Le projet lithium échoue par défaut de concertation. Quel principe TRIZ est enfreint ?",o:["l'idéalité","la synchronisation avec le méta-système","la segmentation","le triplet"],c:1,e:"Il faut faire évoluer le système EN PHASE avec son environnement. Ignorer le méta-système (élus, population) = échec."}
+ ],
+ "🌫️ Clausewitz":[
+  {q:"Deux compagnies baissent leurs prix en surenchère jusqu'à l'épuisement. Concept ?",o:["la friction","l'ascension aux extrêmes → point culminant","la trinité","le renseignement"],c:1,e:"Chaque action appelle une réaction → escalade jusqu'au point culminant. Le vainqueur l'atteint en premier ; savoir s'arrêter (Thorez)."},
+  {q:"Google Glass : plan parfait sur le papier, rejet social imprévu. Concept ?",o:["la friction (le réel résiste au plan)","l'idéalité","la doctrine","le triplet"],c:0,e:"Friction = l'écart entre le plan et le terrain (émotions, hasard). « Une stratégie trop minutieuse se heurte à la réalité. »"},
+  {q:"Chez HP, CA + DG + actionnaires en conflit permanent. Quel modèle est cassé ?",o:["le triplet de l'action","la trinité (Gouvernement / Général / Peuple)","les 3 sphères","l'idéalité"],c:1,e:"La trinité doit fonctionner ensemble. Déséquilibrée (intérêts perso > vision) + oubli de la confiance (Luhmann) = crises à répétition."}
+ ],
+ "🐉 Sun Tzu":[
+  {q:"Colbert vole le secret des miroirs de Venise pour créer Saint-Gobain. Quelle arme ?",o:["la force brute","le renseignement (intelligence économique)","l'idéalité","la trinité"],c:1,e:"Le renseignement = LA condition de la victoire ; il porte sur le méta-système (savoir détenu par un concurrent)."},
+  {q:"Nintendo Wii évite la guerre de puissance avec Sony/Microsoft et vise un public neuf. Principe ?",o:["affrontement direct","vaincre en évitant le combat (approche indirecte)","ascension aux extrêmes","friction"],c:1,e:"On déplace le terrain plutôt que de s'épuiser dans un combat frontal. « Vaincre, mais en évitant le combat. »"},
+  {q:"Google impose Go via la communauté dev, sans attaquer Java de front. Approche…",o:["directe","indirecte (contournement via le méta-système)","frontale","de prix"],c:1,e:"Indirecte = déséquilibrer puis s'engouffrer. Dassault, lui, est l'exemple de l'approche DIRECTE."}
+ ]
+};
+const qpick=document.getElementById('quizpick'), qbox=document.getElementById('quizbox'), sbox=document.getElementById('scorebox');
+let fScore=0,fAns=0,fTotal=0;
+Object.keys(quizFields).forEach((name)=>{
+  const b=document.createElement('div');b.className='dk';b.textContent=name;
+  b.onclick=()=>{[...qpick.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');loadField(name);};
+  qpick.appendChild(b);
 });
-function updateScore(){
-  const sb=document.getElementById('scorebox');
-  sb.textContent=`Score : ${score} / ${answered} répondu`+(answered===quiz.length?` — TERMINÉ ! ${score>=12?'🔥 Tu es prêt.':score>=8?'👍 Solide, révise les ratés.':'📚 Reprends les modules.'}`:'');
+function loadField(name){
+  qbox.innerHTML='';fScore=0;fAns=0;fTotal=quizFields[name].length;
+  quizFields[name].forEach(q=>renderMCQ(qbox,q,(ok)=>{if(ok)fScore++;fAns++;updateScore(name);}));
+  updateScore(name);
+}
+function updateScore(name){
+  if(fAns===0){sbox.textContent=`Chapitre « ${name} » — ${fTotal} questions appliquées. Réponds !`;return;}
+  let msg=`${name} — Score : ${fScore} / ${fAns}`;
+  if(fAns===fTotal)msg+=fScore===fTotal?" — 🔥 parfait, chapitre maîtrisé !":fScore>=fTotal-1?" — 👍 presque, revois le raté.":" — 📚 relis ce chapitre.";
+  sbox.textContent=msg;
 }
 </script>
 </body>
