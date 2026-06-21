@@ -426,25 +426,37 @@
       <h3 id="k-systeme">La matrice 9 boîtes</h3>
       <p class="mut">3 niveaux (lignes) × 3 temps (colonnes). On y place les acteurs et on trace les interactions. Outil réutilisé dans tous les cas (Lithium, Dassault, Google).</p>
       <div class="diagram">
-        <svg viewBox="0 0 560 280" role="img" aria-label="Matrice 9 boîtes">
-          <text x="290" y="20" text-anchor="middle" fill="#6b7390" font-size="12">TEMPS →</text>
+        <svg viewBox="0 0 560 300" role="img" aria-label="Matrice 9 boîtes complète">
+          <defs><marker id="ar9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#e0a93b"/></marker></defs>
+          <text x="290" y="18" text-anchor="middle" fill="#6b7390" font-size="12">TEMPS →</text>
           <g font-size="12" text-anchor="middle">
             <text x="160" y="44" fill="#9aa3b8">PASSÉ</text><text x="290" y="44" fill="#e0a93b" font-weight="700">PRÉSENT</text><text x="420" y="44" fill="#9aa3b8">FUTUR</text>
             <text x="55" y="85" fill="#a855f7" font-weight="700" transform="rotate(-90 55 85)">MÉTA</text>
             <text x="55" y="160" fill="#e0a93b" font-weight="700" transform="rotate(-90 55 160)">SYSTÈME</text>
             <text x="55" y="235" fill="#5b8def" font-weight="700" transform="rotate(-90 55 235)">SOUS-SYS.</text>
           </g>
+          <!-- zone strat (futur, haut) + zone opérations (présent) -->
+          <rect x="353" y="53" width="134" height="134" rx="8" fill="rgba(224,169,59,.06)"/>
+          <rect x="223" y="123" width="134" height="134" rx="8" fill="rgba(91,141,239,.06)"/>
           <g fill="none" stroke="#272d3d">
             <rect x="95" y="55" width="130" height="60" rx="8"/><rect x="225" y="55" width="130" height="60" rx="8" stroke="#a855f7"/><rect x="355" y="55" width="130" height="60" rx="8"/>
             <rect x="95" y="125" width="130" height="60" rx="8"/><rect x="225" y="125" width="130" height="60" rx="8" stroke="#e0a93b" stroke-width="2"/><rect x="355" y="125" width="130" height="60" rx="8"/>
             <rect x="95" y="195" width="130" height="60" rx="8"/><rect x="225" y="195" width="130" height="60" rx="8" stroke="#5b8def"/><rect x="355" y="195" width="130" height="60" rx="8"/>
           </g>
-          <text x="290" y="90" text-anchor="middle" fill="#cdd3e4" font-size="11">environnement</text>
-          <text x="290" y="160" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">l'entreprise ici</text>
-          <text x="290" y="230" text-anchor="middle" fill="#cdd3e4" font-size="11">filiales / services</text>
-          <text x="430" y="160" text-anchor="middle" fill="#9aa3b8" font-size="10.5">→ stratégie</text>
+          <!-- les 9 cellules remplies -->
+          <g text-anchor="middle" font-size="10.5" fill="#cdd3e4">
+            <text x="160" y="89">contexte d'avant</text><text x="290" y="89">environnement</text><text x="420" y="89">tendances futures</text>
+            <text x="160" y="159">l'entreprise avant</text><text x="420" y="159">objectif / vision</text>
+            <text x="160" y="229">services d'avant</text><text x="290" y="229">filiales / services</text><text x="420" y="229">futures unités</text>
+          </g>
+          <text x="290" y="159" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700">l'entreprise ici</text>
+          <!-- annotations zones -->
+          <text x="420" y="106" text-anchor="middle" fill="#e0a93b" font-size="9" font-weight="700">↗ STRATÉGIE</text>
+          <text x="290" y="247" text-anchor="middle" fill="#5b8def" font-size="9" font-weight="700">OPÉRATIONS</text>
+          <path d="M325 150 C360 140 385 125 408 112" stroke="#e0a93b" stroke-width="1.5" stroke-dasharray="3" fill="none" marker-end="url(#ar9)"/>
+          <text x="290" y="285" text-anchor="middle" fill="#9aa3b8" font-size="10.5">Stratégie = vers le HAUT + le FUTUR · Opérations = le PRÉSENT, en bas</text>
         </svg>
-        <div class="cap">9 boîtes = 3 niveaux × (Passé · Présent · Futur)</div>
+        <div class="cap">9 boîtes = 3 niveaux × (Passé · Présent · Futur) — chaque case a un sens</div>
       </div>
 
       <div class="card"><p style="margin:0;font-size:14px">📌 <strong>Le triplet de l'action</strong> : toute action = <strong>Sujet → Verbe d'action → Objet</strong>. Un ensemble d'actions coordonnées = des <strong>opérations</strong>. Chaque action génère des effets non tous prévisibles → source d'incertitude.</p></div>
