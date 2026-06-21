@@ -13,7 +13,7 @@
     --r:16px; --shadow:0 8px 28px rgba(30,30,60,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:20px}
+  html{scroll-behavior:smooth;scroll-padding-top:78px}
   body{background:var(--bg);color:var(--txt);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:var(--steel);text-decoration:none}
   ::selection{background:var(--acc);color:#1a1207}
@@ -85,6 +85,28 @@
   .lg-cyan{border-color:rgba(34,211,238,.4)} .lg-cyan .lg-dot{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
   .lg-steel{border-color:rgba(91,141,239,.4)} .lg-steel .lg-dot{background:var(--steel);box-shadow:0 0 10px var(--steel)}
   .legend-foot{font-size:13px;color:var(--mut);margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+  /* cas pratiques — boutons concepts */
+  .jumprow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 2px}
+  .jumplabel{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--acc);width:100%;margin-bottom:1px;display:flex;align-items:center;gap:6px}
+  .jump{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:8px 13px;border-radius:10px;background:var(--card2);border:1px solid var(--line);color:var(--txt);text-decoration:none;transition:.15s;line-height:1.2}
+  .jump:before{content:"↘";color:var(--acc);font-weight:800;font-size:14px}
+  .jump:hover{border-color:var(--acc);background:#fff;transform:translateY(-1px);box-shadow:0 5px 16px rgba(30,30,60,.09)}
+  .jump .mod{font-size:10px;color:var(--dim);font-weight:800;text-transform:uppercase;letter-spacing:.5px;background:var(--bg2);padding:1px 6px;border-radius:5px}
+  .casehead{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:20px;font-weight:800;margin:30px 0 4px}
+  .casehead .tagp{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:6px}
+  .casewrap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:16px 0}
+  details.corrige{margin:14px 0 0;border:1px solid var(--line);border-radius:12px;background:var(--card2);overflow:hidden}
+  details.corrige summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:14px;color:var(--acc);list-style:none;user-select:none}
+  details.corrige summary::-webkit-details-marker{display:none}
+  details.corrige summary:before{content:"▶";font-size:10px;margin-right:8px}
+  details.corrige[open] summary:before{content:"▼"}
+  details.corrige .cbody{padding:2px 18px 16px;font-size:13.5px}
+  .qreflect{border-left:3px solid var(--purple);background:rgba(124,58,237,.05);border-radius:0 12px 12px 0;padding:13px 16px;margin:12px 0}
+  .qr{font-weight:700;font-size:14.5px;color:var(--txt);margin:0 0 2px}
+  .qr .qhint{display:block;font-weight:500;font-size:12.5px;color:var(--mut);margin-top:3px}
+  :target{animation:flashtarget 2s ease}
+  @keyframes flashtarget{0%,100%{background:transparent}15%{background:rgba(224,169,59,.22)}}
+  [id^="k-"]{scroll-margin-top:80px;border-radius:8px}
   .quote{border-left:3px solid var(--steel);padding:10px 18px;margin:16px 0;font-style:italic;color:#2a3550;background:rgba(91,141,239,.07);border-radius:0 10px 10px 0}
   .quote .who{display:block;font-style:normal;font-size:12px;color:var(--steel);font-weight:700;margin-top:6px;text-transform:uppercase;letter-spacing:1px}
   .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--card2);border:1px solid var(--line);color:var(--mut);margin:2px}
@@ -274,7 +296,7 @@
 
       <div class="def"><div class="term">TRIZ</div><span class="src">Genrich Altshuller, URSS</span><p style="margin:6px 0 0">Théorie de Résolution des problèmes Inventifs. Méthode <strong>analytique et systématique</strong> de l'innovation. Principe n°1 : <strong>« penser problème, pas solution »</strong>. Adoptée par Samsung, Siemens, Hitachi, le CEA.</p></div>
 
-      <h3>Les 2 types de contradictions</h3>
+      <h3 id="k-contradiction">Les 2 types de contradictions</h3>
       <div class="diagram">
         <svg viewBox="0 0 700 230" role="img" aria-label="Contradiction technique vs physique">
           <rect x="20" y="20" width="320" height="190" rx="14" fill="rgba(224,169,59,.06)" stroke="#e0a93b"/>
@@ -322,7 +344,7 @@
       <h2 class="title">L'Idéalité &amp; les 8 tendances d'évolution</h2>
       <p class="lead">Deux outils-stars, quasi certains au QCM : la <strong>formule de l'idéalité</strong> (pour choisir entre des options) et les <strong>8 tendances d'évolution des systèmes</strong> (pour analyser un projet).</p>
 
-      <h3>La formule de l'idéalité</h3>
+      <h3 id="k-idealite">La formule de l'idéalité</h3>
       <div class="why"><b>L'intuition.</b> L'idéalité = le résultat parfait qu'on voudrait dans un monde idéal. On ne l'atteint jamais, mais on s'en rapproche en augmentant ce qui est utile et en baissant ce qui coûte ou nuit. C'est le <b>critère pour choisir une hypothèse stratégique</b> : on garde celle dont l'idéalité est la plus haute.</p></div>
       <div class="diagram">
         <svg viewBox="0 0 560 170" role="img" aria-label="Formule de l'idéalité">
@@ -344,7 +366,7 @@
       </table>
       <p style="margin:6px 0 0;font-size:13.5px">👉 On retient <b>H2</b> : idéalité la plus haute. La formule force à raisonner « bénéfices RAPPORTÉS aux coûts+risques », pas juste « le plus gros bénéfice ».</p></div>
 
-      <h3>Les 8 tendances d'évolution des systèmes</h3>
+      <h3 id="k-tendances">Les 8 tendances d'évolution des systèmes</h3>
       <p class="mut">LE framework de la séance 2. Sert à analyser comment une organisation/un projet évolue. À savoir lister.</p>
       <div class="diagram">
         <svg viewBox="0 0 720 330" role="img" aria-label="8 tendances d'évolution des systèmes">
@@ -401,7 +423,7 @@
       </ul>
       <p style="margin:4px 0 0;font-size:13px">💡 La perspective change tout : pour le <em>siège Renault</em>, l'usine est un sous-système ; pour l'<em>atelier peinture</em>, l'usine est le méta-système. Même entité, rôle différent selon le point de vue.</p></div>
 
-      <h3>La matrice 9 boîtes</h3>
+      <h3 id="k-systeme">La matrice 9 boîtes</h3>
       <p class="mut">3 niveaux (lignes) × 3 temps (colonnes). On y place les acteurs et on trace les interactions. Outil réutilisé dans tous les cas (Lithium, Dassault, Google).</p>
       <div class="diagram">
         <svg viewBox="0 0 560 280" role="img" aria-label="Matrice 9 boîtes">
@@ -451,7 +473,7 @@
         <div class="cap">Biosphère ⊃ Méta-système ⊃ Système ⊃ Sous-système (René Passet)</div>
       </div>
 
-      <h3>La confrontation : approche directe vs indirecte (Sun Tzu)</h3>
+      <h3 id="k-directindirect">La confrontation : approche directe vs indirecte (Sun Tzu)</h3>
       <div class="def"><div class="term">Confrontation</div><span class="src">Clausewitz</span><p style="margin:6px 0 0">« <strong>L'opposition de deux volontés</strong> » — à considérer <strong>indépendamment de toute violence</strong> (un débat, des soldes, la concurrence sont des confrontations).</p></div>
       <div class="grid2">
         <div class="card" style="border-color:var(--acc)"><strong style="color:var(--acc)">⚔️ Approche directe</strong><p style="font-size:14px">« Droit au but ». Affrontement frontal. <br><em>Ex. Dassault Systèmes</em> : pousse sa plateforme directement vers les clients B2B.</p></div>
@@ -483,7 +505,7 @@
         <div class="cap">Les deux visions opposées de la décision</div>
       </div>
 
-      <h3>L'ascension aux extrêmes &amp; le point culminant</h3>
+      <h3 id="k-ascension">L'ascension aux extrêmes &amp; le point culminant</h3>
       <div class="def"><div class="term">Ascension aux extrêmes</div><span class="src">Clausewitz</span><p style="margin:6px 0 0">« Toute action provoque une réaction » → chaque camp engage toujours plus de moyens, par <strong>surenchères successives</strong>, jusqu'au <strong>point culminant</strong>. Le vainqueur = celui qui l'atteint en premier et pousse l'autre au renoncement. Ensuite = <strong>exploitation du succès</strong>.</p></div>
       <div class="diagram">
         <svg viewBox="0 0 600 220" role="img" aria-label="Ascension aux extrêmes">
@@ -500,7 +522,7 @@
       <p style="font-size:14px;margin:0">Deux compagnies aériennes sur la même ligne. A baisse à 49€ → B réagit à 39€ → A descend à 29€ → B à 19€… Chaque action provoque une réaction, l'escalade monte. Au <b>point culminant</b>, l'une craque (trésorerie épuisée) et abandonne la ligne : l'autre « exploite le succès » et remonte ses prix. <br>👉 Leçon (Thorez/Sun Tzu) : <b>savoir s'arrêter avant</b> que le coût de la victoire ne te détruise toi aussi. Seul le dirigeant peut décider d'arrêter l'escalade.</p></div>
       <div class="quote">« Il faut savoir <strong>terminer une grève</strong> dès que la satisfaction a été obtenue… savoir consentir au compromis si on a obtenu la victoire sur les plus essentielles revendications. »<span class="who">Maurice Thorez, 1936 — savoir s'arrêter quand le coût dépasse le gain</span></div>
 
-      <h3>La trinité de Clausewitz (transposée à l'entreprise)</h3>
+      <h3 id="k-trinite">La trinité de Clausewitz (transposée à l'entreprise)</h3>
       <div class="diagram">
         <svg viewBox="0 0 520 240" role="img" aria-label="Trinité de Clausewitz">
           <polygon points="260,25 480,210 40,210" fill="none" stroke="#272d3d" stroke-width="1.5"/>
@@ -526,7 +548,7 @@
         <div class="quote">« <strong>Vaincre, mais en évitant le combat</strong> » — coûteux en ressources.<span class="who">Sun Tzu</span></div>
       </div>
 
-      <div class="def"><div class="term">Le renseignement = la condition de la victoire</div><span class="src">Sun Tzu</span><p style="margin:6px 0 0">Le <strong>recueil préalable d'informations</strong> est LA condition de la victoire. En langage TRIZ, le renseignement porte sur le <strong>méta-système</strong> (tout ce qui environne ton système : marché, concurrents, technologies, politique). C'est l'ancêtre de <strong>l'intelligence économique</strong>.</p></div>
+      <div class="def" id="k-renseignement"><div class="term">Le renseignement = la condition de la victoire</div><span class="src">Sun Tzu</span><p style="margin:6px 0 0">Le <strong>recueil préalable d'informations</strong> est LA condition de la victoire. En langage TRIZ, le renseignement porte sur le <strong>méta-système</strong> (tout ce qui environne ton système : marché, concurrents, technologies, politique). C'est l'ancêtre de <strong>l'intelligence économique</strong>.</p></div>
 
       <div class="card"><h4 style="margin-top:0">La Doctrine (se mettre en ordre de bataille)</h4>
       <p style="font-size:14px">Sun Tzu insiste sur 3 piliers pour organiser ses ressources :</p>
@@ -576,16 +598,69 @@
     <section id="m9" data-mod>
       <span class="eyebrow">📂 Module 9</span>
       <h2 class="title">Les cas à connaître</h2>
-      <p class="lead">Le cours illustre par des cas historiques et actuels. Pour chacun : quel concept il illustre.</p>
+      <p class="lead">Le QCM teste surtout : <strong>« ce cas illustre quel concept ? »</strong>. Entraîne-toi en mode actif : lis le cas, <strong>réponds dans ta tête</strong>, et si tu hésites clique le <strong>bouton-concept</strong> pour réviser, puis ouvre le corrigé.</p>
 
+      <div class="why"><b>🔄 La méthode (apprentissage actif).</b> 1) Lis le cas. 2) Réponds à la <span style="color:var(--purple);font-weight:700">🤔 question violette</span>. 3) Bloqué ? Clique le <span style="color:var(--acc);font-weight:700">↘ bouton-concept</span> → il te téléporte au chapitre. 4) Vérifie avec le corrigé. Se tester avant de relire = la meilleure technique d'étude.</p></div>
+
+      <!-- CAS HP -->
+      <div class="casehead">🏢 Hewlett-Packard (2001-2006) <span class="tagp b-red">gouvernance</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px;margin-bottom:2px">Administrateurs obsédés par leurs intérêts perso, rivalités, rachat de Compaq raté, éviction de la DG, scandale d'espionnage interne. Crises à répétition.</p>
+        <div class="qreflect"><p class="qr">🤔 Quel principe de Clausewitz est violé ici ?<span class="qhint">Pense aux 3 acteurs qui doivent fonctionner ensemble.</span></p>
+          <div class="jumprow"><span class="jumplabel">🔑 Concept</span><a class="jump" href="#k-trinite">La trinité de Clausewitz <span class="mod">M6</span></a></div>
+        </div>
+        <details class="corrige"><summary>Voir le corrigé</summary><div class="cbody"><p style="margin:0">La <strong>trinité est déséquilibrée</strong> : la relation Gouvernement (CA) / Général (DG) / Peuple (actionnaires) est cassée — intérêts personnels &gt; vision. « Des opérations sans stratégie = vaines » (Sun Tzu). Et oubli de la <strong>confiance</strong> (Luhmann), qui aurait réduit la complexité décisionnelle.</p></div></details>
+      </div>
+
+      <!-- CAS MURANO -->
+      <div class="casehead">🪞 Murano → Saint-Gobain (XVIIᵉ s.) <span class="tagp b-yel">Sun Tzu</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px;margin-bottom:2px">Venise détient le secret des grands miroirs. Colbert envoie des espions (1662), corrompt des verriers → la France capte le savoir-faire → naît Saint-Gobain.</p>
+        <div class="qreflect"><p class="qr">🤔 Quelle « arme stratégique » de Sun Tzu ce cas illustre-t-il ? Et elle porte sur quel niveau TRIZ ?</p>
+          <div class="jumprow"><span class="jumplabel">🔑 Concept</span><a class="jump" href="#k-renseignement">Le renseignement (Sun Tzu) <span class="mod">M7</span></a></div>
+        </div>
+        <details class="corrige"><summary>Voir le corrigé</summary><div class="cbody"><p style="margin:0">Le <strong>renseignement</strong> = la condition de la victoire. Il porte sur le <strong>méta-système</strong> (ici, le savoir-faire détenu par un concurrent étranger). C'est l'ancêtre de l'intelligence économique. Version moderne : TSMC vs Intel.</p></div></details>
+      </div>
+
+      <!-- CAS LITHIUM -->
+      <div class="casehead">⛏️ Lithium en Alsace (2023-26) <span class="tagp b-org">TRIZ / système</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px;margin-bottom:2px">Permis d'exploration du lithium + géothermie. 40 communes sur 42 défavorables ; permis géothermique annulé pour défaut de concertation.</p>
+        <div class="qreflect"><p class="qr">🤔 Avec quel outil cartographier les acteurs ? Qui est le système, qui est le méta-système ?</p>
+          <div class="jumprow"><span class="jumplabel">🔑 Concepts</span><a class="jump" href="#k-systeme">Système &amp; matrice 9 boîtes <span class="mod">M4</span></a><a class="jump" href="#k-tendances">Les 8 tendances <span class="mod">M3</span></a></div>
+        </div>
+        <details class="corrige"><summary>Voir le corrigé</summary><div class="cbody"><p style="margin:0"><strong>Système</strong> = les entreprises (Vulcan, ES). <strong>Méta-système</strong> = élus, population, droit, administration — qui ont bloqué le projet. Principe évolutif enfreint : pas de <strong>synchronisation</strong> avec le méta-système (concertation absente). À lire en <strong>9 boîtes</strong>.</p></div></details>
+      </div>
+
+      <!-- CAS DASSAULT / GOOGLE -->
+      <div class="casehead">⚔️ Dassault vs 🌀 Google/Go <span class="tagp b-yel">directe / indirecte</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px;margin-bottom:2px">Dassault pousse sa plateforme frontalement vers les clients B2B. Google impose son langage Go en s'appuyant sur la communauté des développeurs (sans attaquer Python/Java de front).</p>
+        <div class="qreflect"><p class="qr">🤔 Lequel est une approche <u>directe</u>, lequel <u>indirecte</u> ? Pourquoi ?</p>
+          <div class="jumprow"><span class="jumplabel">🔑 Concept</span><a class="jump" href="#k-directindirect">Approche directe vs indirecte <span class="mod">M5</span></a></div>
+        </div>
+        <details class="corrige"><summary>Voir le corrigé</summary><div class="cbody"><p style="margin:0"><strong>Dassault = directe</strong> (droit au but, frontal). <strong>Google/Go = indirecte</strong> (déséquilibrer puis s'engouffrer : il s'appuie sur le <em>méta-système</em> — la communauté dev — au lieu d'un affrontement frontal avec les langages installés). Sun Tzu : « vaincre en évitant le combat ».</p></div></details>
+      </div>
+
+      <!-- APPLICATION TRIZ -->
+      <div class="casehead">🧪 Application TRIZ — filiale aux USA <span class="tagp b-org">question de cours</span></div>
+      <div class="casewrap">
+        <p style="font-size:14px;margin-bottom:2px">Une PME de composants aéronautiques veut ouvrir une filiale aux USA pour grandir.</p>
+        <div class="qreflect"><p class="qr">🤔 Q1. Quelle contradiction (technique ? physique ?) apparaît ? Comment la résoudre ?<br>🤔 Q2. Entre 2 hypothèses (filiale vs licence), laquelle choisir ?</p>
+          <div class="jumprow"><span class="jumplabel">🔑 Concepts</span><a class="jump" href="#k-contradiction">Les contradictions TRIZ <span class="mod">M2</span></a><a class="jump" href="#k-idealite">La formule de l'idéalité <span class="mod">M3</span></a></div>
+        </div>
+        <details class="corrige"><summary>Voir le corrigé</summary><div class="cbody"><p><strong>Contradiction :</strong> « être présent aux USA (proximité client) » MAIS « rester une petite structure maîtrisée » → contradiction <strong>physique</strong> (échelle) → segmentation (filiale légère, montée progressive).</p><p style="margin:0"><strong>Choix :</strong> on calcule l'<strong>idéalité</strong> = Bénéfices/(Coûts+Négativité) de chaque hypothèse et on retient la plus haute (souvent la licence : marge moindre mais coûts/risques bien plus bas).</p></div></details>
+      </div>
+
+      <h3>📋 Tableau récap (cas → concept)</h3>
       <table>
-        <tr><th>Cas</th><th>Illustre</th></tr>
-        <tr><td><strong>Hewlett-Packard</strong> (2001-2006)</td><td>Contre-exemple de gouvernance : opérations sans stratégie, trinité déséquilibrée (intérêts perso &gt; vision), crises à répétition. Oubli de la confiance (Luhmann).</td></tr>
-        <tr><td><strong>Murano → Saint-Gobain</strong></td><td>Renseignement / intelligence économique comme arme stratégique (Sun Tzu). Colbert vole le secret des miroirs vénitiens.</td></tr>
-        <tr><td><strong>TSMC vs Intel</strong></td><td>Version moderne de l'espionnage industriel ; secret des affaires.</td></tr>
-        <tr><td><strong>Lithium en Alsace</strong> (2023-26)</td><td>Lecture en 9 boîtes : système (Vulcan/ES) vs méta-système (élus, 40/42 communes contre) ; principes évolutifs enfreints (concertation).</td></tr>
-        <tr><td><strong>Dassault Systèmes</strong></td><td>Stratégie <strong>directe</strong> : pousse sa plateforme frontalement vers les clients B2B.</td></tr>
-        <tr><td><strong>Google + langage Go</strong></td><td>Stratégie <strong>indirecte</strong> : s'appuie sur la communauté (méta-système) au lieu d'attaquer les langages établis.</td></tr>
+        <tr><th>Cas</th><th>Concept à citer</th></tr>
+        <tr><td><strong>Hewlett-Packard</strong></td><td>Trinité déséquilibrée + oubli de la confiance</td></tr>
+        <tr><td><strong>Murano → Saint-Gobain</strong></td><td>Renseignement (Sun Tzu)</td></tr>
+        <tr><td><strong>TSMC vs Intel</strong></td><td>Espionnage industriel moderne (secret des affaires)</td></tr>
+        <tr><td><strong>Lithium Alsace</strong></td><td>9 boîtes : système vs méta-système</td></tr>
+        <tr><td><strong>Dassault Systèmes</strong></td><td>Approche directe</td></tr>
+        <tr><td><strong>Google + Go</strong></td><td>Approche indirecte</td></tr>
       </table>
 
       <div class="keep"><div class="h">⭐ Méthode QCM</div>Pour chaque cas, sache <strong>relier le cas → le concept</strong> (c'est ce que teste le QCM). Ex : « Murano illustre quoi ? » → le renseignement. « Google/Go ? » → l'approche indirecte. « HP ? » → trinité déséquilibrée.</div>
