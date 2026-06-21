@@ -107,6 +107,18 @@
   :target{animation:flashtarget 2s ease}
   @keyframes flashtarget{0%,100%{background:transparent}15%{background:rgba(224,169,59,.22)}}
   [id^="k-"]{scroll-margin-top:80px;border-radius:8px}
+  /* mémo / mnémotechniques */
+  .memogrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+  @media(max-width:820px){.memogrid{grid-template-columns:1fr}}
+  .acro{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
+  .acro .at{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:8px}
+  .acroword{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+  .acroword span{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;padding:0 4px;border-radius:9px;background:var(--card2);border:1px solid var(--line);font-weight:800;font-size:16px;color:var(--acc)}
+  .acrolines{font-size:13.5px;margin-bottom:10px}
+  .acrolines div{padding:2.5px 0;color:#2c2e38}
+  .acrolines b{color:var(--acc);font-weight:800}
+  .acrotrick{font-size:13px;background:rgba(224,169,59,.12);border-left:3px solid var(--acc);border-radius:0 9px 9px 0;padding:8px 12px;color:#2c2e38}
+  .acrotrick b{color:var(--acc)}
   .quote{border-left:3px solid var(--steel);padding:10px 18px;margin:16px 0;font-style:italic;color:#2a3550;background:rgba(91,141,239,.07);border-radius:0 10px 10px 0}
   .quote .who{display:block;font-style:normal;font-size:12px;color:var(--steel);font-weight:700;margin-top:6px;text-transform:uppercase;letter-spacing:1px}
   .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--card2);border:1px solid var(--line);color:var(--mut);margin:2px}
@@ -204,6 +216,7 @@
     </nav>
     <div class="navsec">S'entraîner</div>
     <nav>
+      <a href="#memo" data-s="memo"><span class="ico">🧠</span>Mémo &amp; mnémo<span class="dot"></span></a>
       <a href="#flash" data-s="flash"><span class="ico">🃏</span>Flashcards<span class="dot"></span></a>
       <a href="#quiz" data-s="quiz"><span class="ico">✅</span>QCM blanc<span class="dot"></span></a>
     </nav>
@@ -703,6 +716,77 @@
 
       <div class="keep"><div class="h">⭐ Méthode QCM</div>Pour chaque cas, sache <strong>relier le cas → le concept</strong> (c'est ce que teste le QCM). Ex : « Murano illustre quoi ? » → le renseignement. « Google/Go ? » → l'approche indirecte. « HP ? » → trinité déséquilibrée.</div>
       <p style="text-align:center;margin-top:30px"><a href="#flash" class="btn prim" style="display:inline-block;text-decoration:none">→ S'entraîner : Flashcards</a></p>
+    </section>
+
+    <!-- MEMO -->
+    <section id="memo" data-mod>
+      <span class="eyebrow">🧠 Mémo &amp; mnémotechniques</span>
+      <h2 class="title">Retenir TOUS les concepts</h2>
+      <p class="lead">Chaque sigle, formule et liste avec <strong>un truc pour le graver</strong>. Lis le « 💡 truc » à voix haute : c'est lui qui colle.</p>
+
+      <div class="memogrid">
+        <div class="acro"><div class="at">⚙️ La méthode · Altshuller</div>
+          <div class="acroword"><span>T</span><span>R</span><span>I</span><span>Z</span></div>
+          <div class="acrolines"><div><b>T</b>héorie de <b>R</b>ésolution des problèmes <b>I</b>nventifs (sigle russe, le Z final)</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> 2 règles d'or → « penser <b>problème</b>, pas solution » et « inventer = <b>piocher un savoir dans un autre champ</b> ». Le Z trahit l'origine russe.</div>
+        </div>
+
+        <div class="acro"><div class="at">📈 La formule reine</div>
+          <div class="acroword"><span>Idéalité</span><span style="font-size:13px">= B / (C+N)</span></div>
+          <div class="acrolines"><div><b>B</b>énéfices ÷ ( <b>C</b>oûts + <b>N</b>égativité )</div><div>→ on garde l'hypothèse à l'idéalité la + haute</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> « ce que ça <b>R</b>apporte / ce que ça <b>C</b>oûte ET <b>N</b>uit ». N'oublie jamais la <b>N</b>égativité au dénominateur (le piège du QCM).</div>
+        </div>
+
+        <div class="acro"><div class="at">⚙️ Les 2 contradictions</div>
+          <div class="acroword"><span>TECH</span><span>vs</span><span>PHYS</span></div>
+          <div class="acrolines"><div><b>Technique</b> : améliorer A dégrade B (2 objets) → <em>changer de champ</em></div><div><b>Physique</b> : 1 entité, 2 exigences opposées → <em>segmentation</em></div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> <b>Technique = 2</b> choses qui s'opposent ; <b>Physique = 1</b> chose écartelée. Le compromis n'est JAMAIS une solution (il atténue).</div>
+        </div>
+
+        <div class="acro"><div class="at">🔢 Les 3 nombres à ne pas confondre</div>
+          <div class="acroword"><span>40</span><span>39</span><span>8</span></div>
+          <div class="acrolines"><div><b>40</b> principes inventifs (la boîte à outils)</div><div><b>39</b> contradictions / paramètres techniques</div><div><b>8</b> tendances d'évolution des systèmes</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> <b>40 outils</b>, <b>39 conflits-types</b>, <b>8 directions</b>. « 40 pour résoudre, 8 pour évoluer. »</div>
+        </div>
+
+        <div class="acro"><div class="at">🗂️ Les 3 niveaux + la matrice</div>
+          <div class="acroword"><span>MÉTA</span><span>SYS</span><span>SOUS</span></div>
+          <div class="acrolines"><div><b>Méta</b>-système (l'environnement) ⊃ <b>Système</b> (l'entreprise) ⊃ <b>Sous</b>-système (les services)</div><div>Matrice <b>9 boîtes</b> = 3 niveaux × 3 temps (Passé/Présent/Futur)</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> question de <b>perspective</b> (qui me contrôle / qui je contrôle). 9 boîtes : vertical = niveaux, horizontal = temps. Stratégie en haut+futur, opérations en bas+présent.</div>
+        </div>
+
+        <div class="acro"><div class="at">🌍 Théorie des 3 sphères · Passet</div>
+          <div class="acroword"><span>B</span><span>M</span><span>S</span><span>S</span></div>
+          <div class="acrolines"><div><b>B</b>iosphère ⊃ <b>M</b>éta-système ⊃ <b>S</b>ystème ⊃ <b>S</b>ous-système</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> <b>B-M-S-S</b>, des poupées russes, du plus grand (la <b>nature</b>) au plus petit. Commence toujours par la Biosphère.</div>
+        </div>
+
+        <div class="acro"><div class="at">🌫️ Trinité de Clausewitz</div>
+          <div class="acroword"><span>G</span><span>G</span><span>P</span></div>
+          <div class="acrolines"><div><b>G</b>ouvernement — réflexion = DG / CA</div><div><b>G</b>énéral — calcul/risque = Comité exécutif</div><div><b>P</b>euple — émotions/engagement = collaborateurs</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> <b>G-G-P</b> : qui <b>pense</b> (Gouvernement), qui <b>exécute</b> (Général), qui <b>s'engage</b> (Peuple). Les 3 doivent fonctionner ensemble (cf. échec HP).</div>
+        </div>
+
+        <div class="acro"><div class="at">🐉 Doctrine de Sun Tzu</div>
+          <div class="acroword"><span>O</span><span>A</span><span>L</span></div>
+          <div class="acrolines"><div><b>O</b>rganisation · <b>A</b>utorité · <b>L</b>ogistique</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> « <b>OAL</b> » pour se mettre en ordre de bataille : s'<b>o</b>rganiser, <b>c</b>ommander (autorité), <b>r</b>avitailler (logistique). + économie des ressources.</div>
+        </div>
+
+        <div class="acro"><div class="at">⚙️ Le triplet de l'action</div>
+          <div class="acroword"><span>S</span><span>V</span><span>O</span></div>
+          <div class="acrolines"><div><b>S</b>ujet → <b>V</b>erbe d'action → <b>O</b>bjet</div><div>(un ensemble d'actions coordonnées = des opérations)</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> comme une phrase de grammaire : <b>S-V-O</b> = qui fait quoi sur quoi. Chaque action génère de l'incertitude.</div>
+        </div>
+
+        <div class="acro"><div class="at">🐉 Confrontation · Sun Tzu</div>
+          <div class="acroword"><span>DIR.</span><span>vs</span><span>INDIR.</span></div>
+          <div class="acrolines"><div><b>Directe</b> — droit au but, frontal (Dassault, Free Mobile)</div><div><b>Indirecte</b> — contourner via le méta-système (Google/Go, Dollar Shave Club)</div></div>
+          <div class="acrotrick">💡 <b>Le truc :</b> directe = je <b>fonce</b> (coûteux) ; indirecte = je <b>contourne</b> (« vaincre en évitant le combat »).</div>
+        </div>
+      </div>
+
+      <div class="keep"><div class="h">⭐ Méthode pour graver un concept</div>(1) Lis le « 💡 truc » à voix haute 2 fois. (2) Cache la carte, récite. (3) Donne 1 exemple (cas du cours) pour chaque. ⚠️ QCM à points négatifs : ne coche que si tu es sûr — d'où l'intérêt de bien fixer ces sigles.</div>
     </section>
 
     <!-- FLASH -->
